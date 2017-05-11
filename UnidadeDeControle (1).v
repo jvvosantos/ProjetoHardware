@@ -11,7 +11,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	output reg [5:0] estadoSaida;
 
 	reg [5:0] estado;
-	
+
 	output reg PCCtrl,;
 	output reg PCWrite;
 	output reg PCWriteCond;
