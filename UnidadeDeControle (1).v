@@ -88,8 +88,10 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	always @(clk posedge) begin
 		case (estado)
 			RESET:
-				IorD <= CLEAR;
-			
+				IorD <= 3'b001;
+				Write <= 1'b0;
+				
+				estado <= BUSCA
 		endcase 
 	end
 
