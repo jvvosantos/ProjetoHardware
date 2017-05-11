@@ -40,6 +40,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	parameter RESET = 0;
 	parameter BUSCA = 1;
 	parameter DECODIFICAO = 2; 
+	parameter BRANCH_CALC = 37;
 	parameter WAIT = 3;
 	
 	// TIPO R
@@ -87,11 +88,31 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	
 	always @(clk posedge) begin
 		case (estado)
+			//lendo da memoria a instrucao no endereco de PC
 			RESET:
-				IorD <= 3'b001;
-				Write <= 1'b0;
+				IorD     <= 3'b001;
+				Write    <= 1'b0;
 				
-				estado <= BUSCA
+				estado   <= BUSCA
+				
+			DECODIFICAO:
+				IRWrite  <= 1'b0;
+				AluSrcA  <= 2'b0;
+				AluSrcB  <= 3'b001;
+				ALUop    <= 3'b001;
+				PCSource <= 2'b0;
+				PCCtrl   <= 1'b0;
+				PCWrite  <= 1'b0;
+				
+				estado   <= BRANCH_CALC;
+
+			BRANCH_CALC:
+				AluSrcA  <= 2'b0;
+				AluSrcB  <= 3'b011;
+				ALUop    <= 3'b001;
+				
+				estado   <=
+				
 		endcase 
 	end
 
