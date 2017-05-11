@@ -43,6 +43,29 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	parameter BRANCH_CALC = 37;
 	parameter WAIT = 3;
 	
+	
+	// OPCODES DAS INSTRUCOES
+	parameter OPCODE_R = 6'h0;
+	parameter OPCODE_ADDI = 6'h8;
+	parameter OPCODE_ADDIU = 6'h9;
+	parameter OPCODE_BEQ = 6'h4;
+	parameter OPCODE_RTE = 6'h10;
+	parameter OPCODE_BNE = 6'h5;
+	parameter OPCODE_BLE = 6'h6;
+	parameter OPCODE_BGT = 6'h7;
+	parameter OPCODE_BEQM = 6'h1;
+	parameter OPCODE_LB = 6'h20;
+	parameter OPCODE_LH = 6'h21;
+	parameter OPCODE_LUI = 6'hf;
+	parameter OPCODE_LW = 6'h23;
+	parameter OPCODE_SB = 6'h28;
+	parameter OPCODE_SH = 6'h29;
+	parameter OPCODE_SLTI = 6'ha;
+	parameter OPCODE_SW = 6'h2b;
+	parameter OPCODE_J = 6'h2;
+	parameter OPCODE_JAL = 6'h3; 
+	
+	
 	// TIPO R
 	parameter ADD = 4;
 	parameter AND = 5;
@@ -82,6 +105,10 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	parameter J = 35;
 	parameter JAL = 36;
 
+	//EXCESSOES
+	parameter OPCODE_INEXISTENTE = 50;
+	
+	
 	initial begin
 		estado <= RESET
 	end
@@ -116,7 +143,67 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 				AluSrcB  <= 3'b011;
 				ALUop    <= 3'b001;
 				
-				case(opcode) begin
+				case(opcode) 
+					OPCODE_R = 6'h0:
+						case(funct)
+							
+						endcase
+					
+					OPCODE_ADDI = 6'h8:
+						estado <= ADDI;
+					
+					OPCODE_ADDIU = 6'h9:
+						estado <= ADDIU;
+					
+					OPCODE_BEQ = 6'h4:
+						estado <= BEQ;
+					
+					OPCODE_BNE = 6'h5:
+						estado <= BNE;
+					
+					OPCODE_BLE = 6'h6:
+						estado <= BLE;
+					
+					OPCODE_BGT = 6'h7:
+						estado <= BGT;
+					
+					OPCODE_BEQM = 6'h1:
+						estado <= BEQM;
+					
+					OPCODE_LB = 6'h20:
+						estado <= LB;
+					
+					OPCODE_LH = 6'h21:
+						estado <= LH;
+					
+					OPCODE_LUI = 6'hf:
+						estado <= LUI;
+					
+					OPCODE_LW = 6'h23:
+						estado <= LW;
+					
+					OPCODE_SB = 6'h28:
+						estado <= SB;
+					
+					OPCODE_SH = 6'h29:
+						estado <= SH;
+					
+					OPCODE_SLTI = 6'ha:
+						estado <= SLTI;
+					
+					OPCODE_SW = 6'h2b:
+						estado <= SW;
+					
+					OPCODE_J = 6'h2:
+						estado <= J;
+					
+					OPCODE_JAL = 6'h3:
+						estado <= JAL;
+					
+					default: begin
+						state <= OPCODE_INEXISTENTE;
+					end
+				endcase
 				
 				
 				
