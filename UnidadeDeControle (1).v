@@ -90,12 +90,16 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 		case (estado)
 			//lendo da memoria a instrucao no endereco de PC
 			RESET:
+				//pegando o endereco de PC e lendo da memoria com esse endereco
 				IorD     <= 3'b001;
 				Write    <= 1'b0;
 				
 				estado   <= BUSCA
 				
-			DECODIFICAO:
+			
+			BUSCA:
+				//escrevendo a instrucao no IRWrite
+				//incrementando o PC e atualizando seu valor
 				IRWrite  <= 1'b0;
 				AluSrcA  <= 2'b0;
 				AluSrcB  <= 3'b001;
@@ -104,14 +108,19 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 				PCCtrl   <= 1'b0;
 				PCWrite  <= 1'b0;
 				
-				estado   <= BRANCH_CALC;
+				estado   <= DECODIFICAO;
 
-			BRANCH_CALC:
+			DECODIFICAO:
+				//calculo de um possivel branch
 				AluSrcA  <= 2'b0;
 				AluSrcB  <= 3'b011;
 				ALUop    <= 3'b001;
 				
-				estado   <=
+				case(opcode) begin
+				
+				
+				
+				
 				
 		endcase 
 	end
