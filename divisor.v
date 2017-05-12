@@ -29,7 +29,7 @@ module divisor (clk, DivCtrl, divisor, dividendo, /**/ HI, LO)
                 quotient <= quotient + quotientCounter;
             end
             
-            quotientCounter >> 1;
+            quotientCounter <= quotientCounter >> 1;
             divisorIn <= divisorIn >> 1;
             count <= count + 1;
         end else begin
