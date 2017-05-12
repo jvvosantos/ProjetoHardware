@@ -1,5 +1,5 @@
 module divisor (clk, DivCtrl, divisor, dividendo, /**/ HI, LO)
-    //Inputs
+    //Input
     input clk;
     input DivCtrl;
     input reg [31:0] divisor;
