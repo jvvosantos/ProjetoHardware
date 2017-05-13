@@ -221,6 +221,73 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 					OPCODE_JAL:
 						estado <= JAL;
 					
+				endcase
+			
+			ADD:
+				
+			AND:
+				
+			DIV:
+				
+			MULT:
+				
+			JR:
+			
+			MFHI:
+				
+			MFLO:
+				
+			SLL:
+				
+			SLV:
+				
+			SLT:
+				
+			SRA:
+				
+			SRAV:
+				
+			SRL:
+				
+			SUB:
+				
+			BREAK:
+				
+			RTE:
+			
+			ADDI:
+				
+			ADDIU:
+				
+			BEQ:
+				
+			BNE:
+				
+			BLE:
+				
+			BGT:
+				
+			BEQM:
+				
+			LB: 
+				
+			LH:
+				
+			LUI:
+				
+			LW:
+				
+			SB:
+				
+			SH:
+				
+			SLTI:
+				
+			SW:
+				
+			J:
+				
+			JAL:
 					default: begin
 						state <= OPCODE_INEXISTENTE;
 					end
