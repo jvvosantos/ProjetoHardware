@@ -170,67 +170,67 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 					OPCODE_R: begin
 						case(funct)
 							FUNCT_ADD: begin
-
+								estado <= ADD;
 							end
 							
 							FUNCT_AND: begin
-
+								estado <= AND;
 							end
 							
 							FUNCT_DIV: begin
-
+								estado <= DIV;
 							end
 							
 							FUNCT_MULT: begin
-
+								estado <= MULT;
 							end
 							
 							FUNCT_JR: begin
-
+								estado <= JR;
 							end
 							
 							FUNCT_MFHI: begin
-
+								estado <= MFHI;
 							end
 							
 							FUNCT_MFLO: begin
-
+								estado <= MFLO;
 							end
 
 							FUNCT_SLL: begin
-
+								estado <= SLL;
 							end 
 							
 							FUNCT_SLV: begin
-
+								estado <= SLV;
 							end 
 							
 							FUNCT_SLT: begin
-
+								estado <= SLT;
 							end    
 
 							FUNCT_SRA: begin
-
+								estado <= SRA;
 							end    
 
 							FUNCT_SRAV: begin
-
+								estado <= SRAV;
 							end   
 							
 							FUNCT_SRL: begin
-
+								estado <= SRL;
 							end    
 
 							FUNCT_SUB: begin
-
+								estado <= SUB;
 							end    
 
 							FUNCT_BREAK: begin
-
+								estado <= BREAK;
 							end   
 
 							FUNCT_RTE: begin
-
+								estado <= RTE;
 							end
 							
 						endcase
