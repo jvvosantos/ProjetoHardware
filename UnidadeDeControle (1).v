@@ -137,15 +137,15 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	always @(clk posedge) begin
 		case (estado)
 			//lendo da memoria a instrucao no endereco de PC
-			RESET:
+			RESET: begin
 				//pegando o endereco de PC e lendo da memoria com esse endereco
 				IorD     <= 3'b001;
 				Write    <= 1'b0;
 				
 				estado   <= BUSCA
-				
+			end
 			
-			BUSCA:
+			BUSCA: begin
 				//escrevendo a instrucao no IRWrite
 				//incrementando o PC e atualizando seu valor
 				IRWrite  <= 1'b0;
@@ -157,137 +157,286 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 				PCWrite  <= 1'b0;
 				
 				estado   <= DECODIFICAO;
-
-			DECODIFICAO:
+			end
+			
+			DECODIFICAO: begin
 				//calculo de um possivel branch
 				AluSrcA  <= 2'b0;
 				AluSrcB  <= 3'b011;
 				ALUop    <= 3'b001;
 				
 				case(opcode) 
-					OPCODE_R:
+					
+					OPCODE_R: begin
 						case(funct)
+							FUNCT_ADD: begin
+
+							end
+							
+							FUNCT_AND: begin
+
+							end
+							
+							FUNCT_DIV: begin
+
+							end
+							
+							FUNCT_MULT: begin
+
+							end
+							
+							FUNCT_JR: begin
+
+							end
+							
+							FUNCT_MFHI: begin
+
+							end
+							
+							FUNCT_MFLO: begin
+
+							end
+
+							FUNCT_SLL: begin
+
+							end 
+							
+							FUNCT_SLV: begin
+
+							end 
+							
+							FUNCT_SLT: begin
+
+							end    
+
+							FUNCT_SRA: begin
+
+							end    
+
+							FUNCT_SRAV: begin
+
+							end   
+							
+							FUNCT_SRL: begin
+
+							end    
+
+							FUNCT_SUB: begin
+
+							end    
+
+							FUNCT_BREAK: begin
+
+							end   
+
+							FUNCT_RTE: begin
+
+							end
 							
 						endcase
+					end
 					
-					OPCODE_ADDI:
+					OPCODE_ADDI: begin
 						estado <= ADDI;
+					end
 					
-					OPCODE_ADDIU:
+					OPCODE_ADDIU: begin
 						estado <= ADDIU;
+					end
 					
-					OPCODE_BEQ:
+					OPCODE_BEQ: begin
 						estado <= BEQ;
+					end
 					
-					OPCODE_BNE:
+					OPCODE_BNE: begin
 						estado <= BNE;
+					end
 					
-					OPCODE_BLE:
+					OPCODE_BLE: begin
 						estado <= BLE;
+					end
 					
-					OPCODE_BGT:
+					OPCODE_BGT: begin
 						estado <= BGT;
+					end
 					
-					OPCODE_BEQM:
+					OPCODE_BEQM: begin
 						estado <= BEQM;
+					end
 					
-					OPCODE_LB: 
+					OPCODE_LB: begin 
 						estado <= LB;
+					end
 					
-					OPCODE_LH:
+					OPCODE_LH: begin
 						estado <= LH;
+					end
 					
-					OPCODE_LUI:
+					OPCODE_LUI: begin
 						estado <= LUI;
+					end
 					
-					OPCODE_LW:
+					OPCODE_LW: begin
 						estado <= LW;
+					end
 					
-					OPCODE_SB:
+					OPCODE_SB: begin
 						estado <= SB;
+					end
 					
-					OPCODE_SH:
+					OPCODE_SH: begin
 						estado <= SH;
+					end
 					
-					OPCODE_SLTI:
+					OPCODE_SLTI: begin
 						estado <= SLTI;
+					end
 					
-					OPCODE_SW:
+					OPCODE_SW: begin
 						estado <= SW;
+					end
 					
-					OPCODE_J:
+					OPCODE_J: begin
 						estado <= J;
+					end
 					
-					OPCODE_JAL:
+					OPCODE_JAL: begin
 						estado <= JAL;
+					end
 					
 				endcase
 			
-			ADD:
-				
-			AND:
-				
-			DIV:
-				
-			MULT:
-				
-			JR:
+			ADD: begin
 			
-			MFHI:
+			end
 				
-			MFLO:
-				
-			SLL:
-				
-			SLV:
-				
-			SLT:
-				
-			SRA:
-				
-			SRAV:
-				
-			SRL:
-				
-			SUB:
-				
-			BREAK:
-				
-			RTE:
+			AND: begin
 			
-			ADDI:
+			end
 				
-			ADDIU:
+			DIV: begin
+			
+			end
 				
-			BEQ:
+			MULT: begin
+			
+			end
 				
-			BNE:
+			JR: begin
+			
+			end
+			
+			MFHI: begin
+			
+			end
 				
-			BLE:
+			MFLO: begin
+			
+			end
 				
-			BGT:
+			SLL: begin
+			
+			end
 				
-			BEQM:
+			SLV: begin
+			
+			end
 				
-			LB: 
+			SLT: begin
+			
+			end
 				
-			LH:
+			SRA: begin
+			
+			end
 				
-			LUI:
+			SRAV: begin
+			
+			end
 				
-			LW:
+			SRL: begin
+			
+			end
 				
-			SB:
+			SUB: begin
+			
+			end
 				
-			SH:
+			BREAK: begin
+			
+			end
 				
-			SLTI:
+			RTE: begin
+			
+			end
+			
+			ADDI: begin
+			
+			end
 				
-			SW:
+			ADDIU: begin
+			
+			end
 				
-			J:
+			BEQ: begin
+			
+			end
 				
-			JAL:
+			BNE: begin
+			
+			end
+				
+			BLE: begin
+			
+			end
+				
+			BGT: begin
+			
+			end
+				
+			BEQM: begin
+			
+			end
+				
+			LB: begin
+			
+			end 
+				
+			LH: begin
+			
+			end
+				
+			LUI: begin
+			
+			end
+				
+			LW: begin
+			
+			end
+				
+			SB: begin
+			
+			end
+				
+			SH: begin
+			
+			end
+				
+			SLTI: begin
+			
+			end
+				
+			SW: begin
+			
+			end
+				
+			J: begin
+			
+			end
+				
+			JAL: begin
+			
+			end
 					default: begin
 						state <= OPCODE_INEXISTENTE;
 					end
