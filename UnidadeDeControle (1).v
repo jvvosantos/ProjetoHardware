@@ -43,6 +43,49 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	parameter BRANCH_CALC = 37;
 	parameter WAIT = 3;
 	
+	//ESTADOS	
+	// TIPO R
+	parameter ADD = 4;
+	parameter AND = 5;
+	parameter DIV = 6;
+	parameter MULT = 7;
+	parameter JR = 8;
+	parameter MFHI = 9;
+	parameter MFLO = 10;
+	parameter SLL = 11;
+	parameter SLV = 12;
+	parameter SLT = 13;
+	parameter SRA = 14;
+	parameter SRAV = 15;
+	parameter SRL = 16;
+	parameter SUB = 17;
+	parameter BREAK = 18;
+	parameter RTE = 19;
+	
+	//ESTADOS
+	// TIPO I
+	parameter ADDI = 20;
+	parameter ADDIU = 21;
+	parameter BEQ = 22;
+	parameter BNE = 23;
+	parameter BLE = 24;
+	parameter BGT = 25;
+	parameter BEQM = 26;
+	parameter LB = 27;
+	parameter LH = 28;
+	parameter LUI = 29;
+	parameter LW = 30;
+	parameter SB = 31;
+	parameter SH = 32;
+	parameter SLTI = 33;
+	parameter SW = 34;
+	
+	//ESTADOS
+	// TIPO J
+	parameter J = 35;
+	parameter JAL = 36;
+
+	
 	
 	// OPCODES DAS INSTRUCOES
 	parameter OPCODE_R = 6'h0;
@@ -63,48 +106,11 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	parameter OPCODE_SLTI = 6'ha;
 	parameter OPCODE_SW = 6'h2b;
 	parameter OPCODE_J = 6'h2;
-	parameter OPCODE_JAL = 6'h3; 
-	
-	
-	// TIPO R
-	parameter ADD = 4;
-	parameter AND = 5;
-	parameter DIV = 6;
-	parameter MULT = 7;
-	parameter JR = 8;
-	parameter MFHI = 9;
-	parameter MFLO = 10;
-	parameter SLL = 11;
-	parameter SLV = 12;
-	parameter SLT = 13;
-	parameter SRA = 14;
-	parameter SRAV = 15;
-	parameter SRL = 16;
-	parameter SUB = 17;
-	parameter BREAK = 18;
-	parameter RTE = 19;
-	
-	// TIPO I
-	parameter ADDI = 20;
-	parameter ADDIU = 21;
-	parameter BEQ = 22;
-	parameter BNE = 23;
-	parameter BLE = 24;
-	parameter BGT = 25;
-	parameter BEQM = 26;
-	parameter LB = 27;
-	parameter LH = 28;
-	parameter LUI = 29;
-	parameter LW = 30;
-	parameter SB = 31;
-	parameter SH = 32;
-	parameter SLTI = 33;
-	parameter SW = 34;
-	
-	// TIPO J
-	parameter J = 35;
-	parameter JAL = 36;
+	parameter OPCODE_JAL = 6'h3;
 
+	//FUNCT DAS INSTRUCOES TIPO R
+	
+	
 	//EXCESSOES
 	parameter OPCODE_INEXISTENTE = 50;
 	
@@ -170,7 +176,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 					OPCODE_BEQM:
 						estado <= BEQM;
 					
-					OPCODE_LB:
+					OPCODE_LB: 
 						estado <= LB;
 					
 					OPCODE_LH:

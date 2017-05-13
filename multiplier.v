@@ -25,4 +25,4 @@ module multiplier (clk, fator0, fator1, /**/ HI, LO)
     initial begin
         count <= 0;
     end
-endmodule
+endmodule 
