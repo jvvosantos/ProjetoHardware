@@ -109,7 +109,22 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	parameter OPCODE_JAL = 6'h3;
 
 	//FUNCT DAS INSTRUCOES TIPO R
-	
+	parameter FUNCT_ADD    = 6'h20;
+	parameter FUNCT_AND    = 6'h24;
+	parameter FUNCT_DIV	   = 6'h1a;
+	parameter FUNCT_MULT   = 6'h;
+	parameter FUNCT_JR     = 6'h;
+	parameter FUNCT_MFHI   = 6'h;
+	parameter FUNCT_MFLO   = 6'h;
+	parameter FUNCT_SLL    = 6'h;
+	parameter FUNCT_SLV    = 6'h;
+	parameter FUNCT_SLT    = 6'h;
+	parameter FUNCT_SRA    = 6'h;
+	parameter FUNCT_SRAV   = 6'h;
+	parameter FUNCT_SRL    = 6'h;
+	parameter FUNCT_SUB    = 6'h;
+	parameter FUNCT_BREAK  = 6'h; 
+	parameter FUNCT_RTE    = 6'h;
 	
 	//EXCESSOES
 	parameter OPCODE_INEXISTENTE = 50;
@@ -205,72 +220,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 					
 					OPCODE_JAL:
 						estado <= JAL;
-				endcase
-				ADD:
-				
-				AND:
-				
-				DIV:
-				
-				MULT:
-				
-				JR:
-				
-				MFHI:
-				
-				MFLO:
-				
-				SLL:
-				
-				SLV:
-				
-				SLT:
-				
-				SRA:
-				
-				SRAV:
-				
-				SRL:
-				
-				SUB:
-				
-				BREAK:
-				
-				RTE:
-			
-				ADDI:
-				
-				ADDIU:
-				
-				BEQ:
-				
-				BNE:
-				
-				BLE:
-				
-				BGT:
-				
-				BEQM:
-				
-				LB: 
-				
-				LH:
-				
-				LUI:
-				
-				LW:
-				
-				SB:
-				
-				SH:
-				
-				SLTI:
-				
-				SW:
-				
-				J:
-				
-				JAL:
+					
 					default: begin
 						state <= OPCODE_INEXISTENTE;
 					end
