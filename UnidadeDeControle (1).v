@@ -7,6 +7,9 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	input ET;
 	input GT;
 	input LT;
+	input MultOut;
+	input DivOut;
+	input divZero;
 	
 	output reg [5:0] estadoSaida;
 
@@ -61,6 +64,10 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	parameter SUB = 17;
 	parameter BREAK = 18;
 	parameter RTE = 19;
+	parameter END_ADD = 50; 
+	parameter DIV_0 = 51;
+	parameter SHIFT_END = 52;
+	parameter END_SLT = 53;
 	
 	//ESTADOS
 	// TIPO I
@@ -170,39 +177,41 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 					OPCODE_R: begin
 						case(funct)
 							FUNCT_ADD: begin
-								estado <= ADD;
+								estado  <= ADD; 
 							end
 							
 							FUNCT_AND: begin
-								estado <= AND;
+								estado  <= ADD; 
 							end
+							
 							
 							FUNCT_DIV: begin
 								estado <= DIV;
 							end
 							
+							
 							FUNCT_MULT: begin
-								estado <= MULT;
+								estado <= MULT;		
 							end
 							
 							FUNCT_JR: begin
-								estado <= JR;
+								estado	 <= JR;
 							end
 							
 							FUNCT_MFHI: begin
-								estado <= MFHI;
+								estado   <= MFHI; 
 							end
 							
 							FUNCT_MFLO: begin
-								estado <= MFLO;
+								estado   <= MFLO;
 							end
 
 							FUNCT_SLL: begin
-								estado <= SLL;
+								estado 	  <= SLL;
 							end 
 							
 							FUNCT_SLV: begin
-								estado <= SLV;
+								estado 	  <= SLV;
 							end 
 							
 							FUNCT_SLT: begin
@@ -210,19 +219,19 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 							end    
 
 							FUNCT_SRA: begin
-								estado <= SRA;
+								estado 	  <= SRA;
 							end    
 
 							FUNCT_SRAV: begin
-								estado <= SRAV;
+								estado 	  <= SRAV;
 							end   
 							
 							FUNCT_SRL: begin
-								estado <= SRL;
+								estado 	  <= SRL;
 							end    
 
 							FUNCT_SUB: begin
-								estado <= SUB;
+								estado  <= SUB; 
 							end    
 
 							FUNCT_BREAK: begin
@@ -306,69 +315,182 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 					
 				endcase
 			
+			//EXECUCOES TIPO R
+			
+			
 			ADD: begin
-			
+				AluSrcB <= 3'b000;
+				AluSrcA <= 3'b010;
+				ALUop   <= 3'b001;
+					
+				estado  <= END_ADD; 
 			end
-				
+							
 			AND: begin
-			
+				AluSrcB <= 3'b000;
+				AluSrcA <= 3'b010;
+				ALUop   <= 3'b011;
+								
+				estado  <= END_ADD; 
 			end
-				
+							
+			//incompleto
 			DIV: begin
+				DivCtrl <= 1'b1;
 			
+				if(divZero) begin
+					DivCtrl <= 1'b0;
+					estado  <= DIV_0;
+				end
+								
+				if(DivOut) begin
+				end
+								
+				state <= RESET;
 			end
-				
+							
+			//incompleto
 			MULT: begin
-			
-			end
+				MultCtrl <= 1'b1;
 				
+				if(MultOut)begin
+					MultCtrl <= 1'b0;
+					estado <= RESET;
+				end
+					
+			end
+						
 			JR: begin
-			
+				AluSrcA  <= 3'b010;
+				AluSrcB  <= 3'b100;
+				ALUop    <= 3'b001;
+				PCSource <= 2'b00;
+				PCCtrl	 <= 1'b0;
+				PCWrite  <= 1'b1;
+								
+				estado	 <= RESET;
 			end
-			
+							
 			MFHI: begin
-			
+				RegDst   <= 3'b001;
+				MemToReg <= 4'b0100;
+				RegWrite <= 1'b1;
+					
+				estado   <= RESET; 
 			end
-				
+							
 			MFLO: begin
-			
+				RegDst   <= 3'b001;
+				MemToReg <= 4'b0101;
+				RegWrite <= 1'b1;
+					
+				estado   <= RESET;
 			end
-				
+
+			//shitfs incompletos, verificar se precisa de waits
 			SLL: begin
-			
-			end
+				ShiftN    <= 2'b01;
+				ShiftSrc  <= 2'b00;
+				Set       <= 3'b010;
+				
+				estado 	  <= SHIFT_END;
+			end 
 				
 			SLV: begin
-			
-			end
+				ShiftN    <= 2'b00;
+				ShiftSrc  <= 2'b01;
+				Set       <= 3'b010;
 				
+				estado 	  <= SHIFT_END;
+			end 
+						
 			SLT: begin
+				AluSrcA <= 2'b01;
+				ALuSrcB <= 3'b000;
+				ALUop   <= 3'b111;
+													
+				estado <= END_SLT;
+			end    
 			
-			end
-				
 			SRA: begin
-			
-			end
-				
+				ShiftN    <= 2'b01;
+				ShiftSrc  <= 2'b00;
+				Set       <= 3'b100;
+					
+				estado 	  <= SHIFT_END;
+			end    
+
 			SRAV: begin
-			
-			end
+				ShiftN    <= 2'b00;
+				ShiftSrc  <= 2'b01;
+				Set       <= 3'b100;
 				
+				estado 	  <= SHIFT_END;
+			end   
+						
 			SRL: begin
-			
-			end
-				
+				ShiftN    <= 2'b01;
+				ShiftSrc  <= 2'b00;
+				Set       <= 3'b011;
+					
+				estado 	  <= SHIFT_END;
+			end    
+
 			SUB: begin
-			
-			end
+				AluSrcB <= 3'b000;
+				AluSrcA <= 3'b010;
+				ALUop   <= 3'b010;
 				
+				estado  <= END_ADD; 
+			end    
+
 			BREAK: begin
+				AluSrcA  <= 2'b00;
+				AluSrcB  <= 3'b001;
+				ALUop    <= 3'b010;
+				PCSource <= 2'b00;
+				PCCtrl   <= 1'b0;
+				PCWrite  <= 1'b1;
+								
+				estado <= RESET;
+			end   
+
+			RTE: begin
+				PCSource <= 3'b011;
+				PCCtrl   <= 1'b0;
+				PCWrite  <= 1'b1;
+						
+				estado <= RESET;
+			end
 			
+			//segunda parte do add/sub/and
+			END_ADD: begin
+				RegDst   <= 3'b001;
+				MemToReg <= 4'b0110;
+				RegWrite <= 1'b1;
+				
+				estado <= RESET;
 			end
 				
-			RTE: begin
-			
+			END_SLT: begin
+				RegDst   <= 3'b001;
+				MemToReg <= 4'b0111;
+				RegWrite <= 1'b1;
+				
+				estado <= RESET;
+				
 			end
+			
+			SHIFT_END: begin
+				RegDst   <= 3'b000;
+				MemToReg <= 4'b0011;
+				RegWrite <= 1'b1;
+				
+				estado <= RESET;
+			end
+				
+			
+			//EXECUCAO TIPO I
 			
 			ADDI: begin
 			
