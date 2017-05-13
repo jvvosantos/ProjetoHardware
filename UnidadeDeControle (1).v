@@ -205,7 +205,63 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 					
 					OPCODE_JAL:
 						estado <= JAL;
-					
+				endcase
+			
+				OPCODE_R:
+					case(funct)
+						
+					endcase
+				
+				OPCODE_ADDI:
+					estado <= ADDI;
+				
+				OPCODE_ADDIU:
+					estado <= ADDIU;
+				
+				OPCODE_BEQ:
+					estado <= BEQ;
+				
+				OPCODE_BNE:
+					estado <= BNE;
+				
+				OPCODE_BLE:
+					estado <= BLE;
+				
+				OPCODE_BGT:
+					estado <= BGT;
+				
+				OPCODE_BEQM:
+					estado <= BEQM;
+				
+				OPCODE_LB: 
+					estado <= LB;
+				
+				OPCODE_LH:
+					estado <= LH;
+				
+				OPCODE_LUI:
+					estado <= LUI;
+				
+				OPCODE_LW:
+					estado <= LW;
+				
+				OPCODE_SB:
+					estado <= SB;
+				
+				OPCODE_SH:
+					estado <= SH;
+				
+				OPCODE_SLTI:
+					estado <= SLTI;
+				
+				OPCODE_SW:
+					estado <= SW;
+				
+				OPCODE_J:
+					estado <= J;
+				
+				OPCODE_JAL:
+					estado <= JAL;
 					default: begin
 						state <= OPCODE_INEXISTENTE;
 					end
