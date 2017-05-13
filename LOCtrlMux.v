@@ -1,4 +1,4 @@
-module LOMux (LOCtrl, in_mult, in_div, lo_out);
+module LOCtrlMux (LOCtrl, in_mult, in_div, lo_out);
 
 input LOCtrl;
 input [31:0] in_mult;

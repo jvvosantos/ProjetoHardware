@@ -1,6 +1,6 @@
 module RegDstMux (RegDst, in_rt, in_rd, mux_out);
 
-input RegDst;
+input [2:0] RegDst;
 input [4:0] in_rt;
 input [4:0] in_rd;
 output reg [31:0] mux_out;

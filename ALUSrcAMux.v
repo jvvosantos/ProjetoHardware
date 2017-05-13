@@ -1,6 +1,6 @@
 module ALUSrcAMux (ALUSrcA, in_pc, in_mdr, in_regA, hi_out);
 
-input [2:0] ALUSrcA;
+input [1:0] ALUSrcA;
 input [31:0] in_pc;
 input [31:0] in_mdr;
 input [31:0] in_regA;
