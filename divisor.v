@@ -41,9 +41,29 @@ module divisor (clk, DivCtrl, divisor, dividendo, /**/ HI, LO)
 			case (start) begin
 				2'b00:
 				begin
-					if (divisor < 0) divisorNegativo <= 1;
-					if (dividendo < 0) dividendoNegativo <= 1;
+					if (divisor[31]) begin
+						divisorNegativo <= 1;
+						divisorIn <= {32'b0, (~divisor + 1)};
+					end else begin
+						divisorNegativo <= 0;
+						divisorIn <= {32'b0, divisor};
+					end
+					if (dividendo[31]) begin
+						dividendoNegativo <= 1;
+						dividendoIn <= {32'b0, (~dividendo + 1)};
+					end else begin
+						dividendoNegativo <= 0;
+						dividendoIn <= {32'b0, dividendo};
+					end
+					
 					if (divisor == 0) divZero <= 1;
+					
+					quotient <= 32'b0;
+					quotientCounter <= 32'b0;
+					count <= 6'b0;
+					HI <= 32'b0;
+					LO <= 32'b0;
+					start <= 2'b01;
 				end
 				
 				2'b01:
@@ -58,8 +78,15 @@ module divisor (clk, DivCtrl, divisor, dividendo, /**/ HI, LO)
 						divisorIn <= divisorIn >> 1;
 						count <= count + 1;
 					end else begin
-						HI <= dividendoIn [31:0];
-						LO <= quotient;
+						if (divisorNegativo == dividendoNegativo) begin
+							if (dividendoNegativo) HI <= (~dividendoIn [31:0]) + 1;
+							else HI <= dividendoIn [31:0];
+							LO <= quotient;
+						end else begin
+							if (dividendoNegativo) HI <= (~dividendoIn [31:0]) + 1;
+							else HI <= dividendoIn [31:0];
+							LO < (~quotient + 1);
+						end
 						start <= 2b'10;
 					end
 				end
@@ -71,8 +98,6 @@ module divisor (clk, DivCtrl, divisor, dividendo, /**/ HI, LO)
 					quotient <= 32'b0;
 					quotientCounter <= 32'b0;
 					count <= 32'b0;
-					HI <= 64'b0;
-					LO <= 64'b0;
 					start <= 2'b0;
 				end
 			endcase
