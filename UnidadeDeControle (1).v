@@ -144,60 +144,60 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 				ALUop    <= 3'b001;
 				
 				case(opcode) 
-					OPCODE_R = 6'h0:
+					OPCODE_R:
 						case(funct)
 							
 						endcase
 					
-					OPCODE_ADDI = 6'h8:
+					OPCODE_ADDI:
 						estado <= ADDI;
 					
-					OPCODE_ADDIU = 6'h9:
+					OPCODE_ADDIU:
 						estado <= ADDIU;
 					
-					OPCODE_BEQ = 6'h4:
+					OPCODE_BEQ:
 						estado <= BEQ;
 					
-					OPCODE_BNE = 6'h5:
+					OPCODE_BNE:
 						estado <= BNE;
 					
-					OPCODE_BLE = 6'h6:
+					OPCODE_BLE:
 						estado <= BLE;
 					
-					OPCODE_BGT = 6'h7:
+					OPCODE_BGT:
 						estado <= BGT;
 					
-					OPCODE_BEQM = 6'h1:
+					OPCODE_BEQM:
 						estado <= BEQM;
 					
-					OPCODE_LB = 6'h20:
+					OPCODE_LB:
 						estado <= LB;
 					
-					OPCODE_LH = 6'h21:
+					OPCODE_LH:
 						estado <= LH;
 					
-					OPCODE_LUI = 6'hf:
+					OPCODE_LUI:
 						estado <= LUI;
 					
-					OPCODE_LW = 6'h23:
+					OPCODE_LW:
 						estado <= LW;
 					
-					OPCODE_SB = 6'h28:
+					OPCODE_SB:
 						estado <= SB;
 					
-					OPCODE_SH = 6'h29:
+					OPCODE_SH:
 						estado <= SH;
 					
-					OPCODE_SLTI = 6'ha:
+					OPCODE_SLTI:
 						estado <= SLTI;
 					
-					OPCODE_SW = 6'h2b:
+					OPCODE_SW:
 						estado <= SW;
 					
-					OPCODE_J = 6'h2:
+					OPCODE_J:
 						estado <= J;
 					
-					OPCODE_JAL = 6'h3:
+					OPCODE_JAL:
 						estado <= JAL;
 					
 					default: begin
