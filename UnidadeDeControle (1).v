@@ -16,15 +16,15 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	output reg PCWrite;
 	output reg PCWriteCond;
 	output reg [2:0] IorD;
-	output reg [1:0] MemD;
+	output reg MemD;
 	output reg Write;
 	output reg IRWrite;
-	output reg [1:0] ALUflag;
-	output reg [1:0] ShiftSrc;
-	output reg [1:0] ShiftN;
+	output reg ALUflag;
+	output reg ShiftSrc;
+	output reg ShiftN;
 	output reg set;
-	output reg [2:0] RegDst;
-	output reg [3:0] MemtoReg;
+	output reg RegDst;
+	output reg MemDReg;
 	output reg RegWrite;
 	output reg MultCtrl;
 	output reg DivCtrl;
@@ -34,7 +34,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	output reg EPCWrite;
 	output reg HICtrl; 
 	output reg LOCtrl;
-	output reg [1:0] PCSource;
+	output reg PCSource;
 	
 	// DEFINICAO DOS ESTADOS
 	parameter RESET = 0;
