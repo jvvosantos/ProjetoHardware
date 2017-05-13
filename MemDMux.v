@@ -1,6 +1,6 @@
 module MemDMux (MemD, in_wordB, in_byteB, in_halfB, mux_out);
 
-input MemD;
+input [1:0] MemD;
 input [31:0] in_wordB;
 input [31:0] in_byteB;
 input [31:0] in_halfB;

@@ -1,4 +1,4 @@
-module HIMux (HICtrl, in_mult, in_div, hi_out);
+module HICtrlMux (HICtrl, in_mult, in_div, hi_out);
 
 input HICtrl;
 input [31:0] in_mult;
