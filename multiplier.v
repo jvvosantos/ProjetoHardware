@@ -46,4 +46,4 @@ module multiplier (clk, MultCtrl, MultReset, fator0, fator1, /**/ HI, LO, MultOU
 		multiplicador <= fatorB;
 		resultado <= 64'b0;
     end
-endmodule 
+endmodule
