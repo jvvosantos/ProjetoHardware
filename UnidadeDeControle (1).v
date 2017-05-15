@@ -119,19 +119,19 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	parameter FUNCT_ADD    = 6'h20;
 	parameter FUNCT_AND    = 6'h24;
 	parameter FUNCT_DIV	   = 6'h1a;
-	parameter FUNCT_MULT   = 6'h;
-	parameter FUNCT_JR     = 6'h;
-	parameter FUNCT_MFHI   = 6'h;
-	parameter FUNCT_MFLO   = 6'h;
-	parameter FUNCT_SLL    = 6'h;
-	parameter FUNCT_SLV    = 6'h;
-	parameter FUNCT_SLT    = 6'h;
-	parameter FUNCT_SRA    = 6'h;
-	parameter FUNCT_SRAV   = 6'h;
-	parameter FUNCT_SRL    = 6'h;
-	parameter FUNCT_SUB    = 6'h;
-	parameter FUNCT_BREAK  = 6'h; 
-	parameter FUNCT_RTE    = 6'h;
+	parameter FUNCT_MULT   = 6'18;
+	parameter FUNCT_JR     = 6'h8;
+	parameter FUNCT_MFHI   = 6'h10;
+	parameter FUNCT_MFLO   = 6'h12;
+	parameter FUNCT_SLL    = 6'h0;
+	parameter FUNCT_SLV    = 6'h4;
+	parameter FUNCT_SLT    = 6'h2A;
+	parameter FUNCT_SRA    = 6'h3;
+	parameter FUNCT_SRAV   = 6'h7;
+	parameter FUNCT_SRL    = 6'h2;
+	parameter FUNCT_SUB    = 6'h22;
+	parameter FUNCT_BREAK  = 6'hxd; 
+	parameter FUNCT_RTE    = 6'h13;
 	
 	//EXCESSOES
 	parameter OPCODE_INEXISTENTE = 50;
@@ -551,6 +551,8 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 			SW: begin
 			
 			end
+			
+			//EXECUCAO TIPO J
 				
 			J: begin
 			
