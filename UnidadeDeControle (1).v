@@ -641,23 +641,94 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 			end
 			
 			
-			LB: begin
-			
-			end 
-				
-			LH: begin
-			
-			end
-				
-			LUI: begin
-			
-			end
-				
 			LW: begin
-			
-			end
+				AluSrcA <= 2'b10; 
+				ALuSrcB <= 3'b010;
+				ALUop	<= 3'b001;
 				
-			SB: begin
+				estado <= LW_MID;
+			end
+			
+			LH: begin
+				AluSrcA <= 2'b10; 
+				ALuSrcB <= 3'b010;
+				ALUop	<= 3'b001;
+				
+				estado <= LH_MID;
+			end
+			
+			LB: begin
+				AluSrcA <= 2'b10; 
+				ALuSrcB <= 3'b010;
+				ALUop	<= 3'b001;
+				
+				estado <= LB_MID;
+			end
+			
+			LW_MID: begin
+				IorD  <= 3'b010;
+				Write <= 1'b0;
+				
+				estado <= LW_END;
+			end
+			
+			LH_MID: begin
+				IorD  <= 3'b010;
+				Write <= 1'b0;
+				
+				estado <= LH_END;
+			end
+			
+			LB_MID: begin
+				IorD  <= 3'b010;
+				Write <= 1'b0;
+				
+				estado <= LB_END;
+			end
+			
+			LW_END: begin
+				RegDst	  <= 3'b000;
+				MemToReg  <= 4'b0010;
+				RegWrite  <= 1'b1;
+			
+				estado <= RESET;
+			end
+			
+			LH_END: begin
+				RegDst	  <= 3'b000;
+				MemToReg  <= 4'b0000;
+				RegWrite  <= 1'b1;
+			
+				estado <= RESET;
+			end
+			
+			LB_END: begin
+				RegDst	  <= 3'b000;
+				MemToReg  <= 4'b0001;
+				RegWrite  <= 1'b1;
+			
+				estado <= RESET;
+			end
+			
+			
+			LUI: begin
+				ShiftN	 <= 2'b10;
+				ShiftSrc <= 2'b10;
+				Set		 <= 3'b010;
+				
+				estado 	 <= LUI_END;
+			end
+			
+			LUI_END: begin
+				RegDst   <= 3'b000;
+				MemToReg <= 4'b0001;
+				RegWrite <= 1'b1;
+				
+				estado   <= RESET;
+			end
+			
+				
+			SW: begin
 			
 			end
 				
@@ -665,21 +736,54 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 			
 			end
 				
-			SLTI: begin
+			SB: begin
 			
 			end
 				
-			SW: begin
-			
+			SLTI: begin
+				AluSrcA <= 2'b10;
+				ALuSrcB <= 3'b010;
+				ALUop   <= 3'b111;
+				
+				estado <= SLTI_END;
 			end
+			
+			SLTI_END: begin
+				RegDst   <= 3'b000;
+				MemToReg <= 4'b0111;
+				RegWrite <= 1'b1;
+				
+				estado <= RESET;
+			end
+			
 			
 			//EXECUCAO TIPO J
 				
 			J: begin
-			
+				PCSource <= 3'b010;
+				PCCtrl   <= 1'b0;
+				PCWrite  <= 1'b1;
+				
+				estado   <= RESET;
 			end
 				
 			JAL: begin
+				PCSource <= 3'b010;
+				PCCtrl 	 <= 1'b0;
+				PCWrite  <= 1'b1
+				AluSrcA  <= 2'b00;
+				ALuSrcB  <= 3'b100;
+				ALUop    <= 3'b001;
+				
+				estado JAL_END;
+			end
+			
+			JAL_END: begin
+				RegDst   <= 3'b010; 
+				MemToReg <= 4'b0110;
+				
+				estado   <= RESET;
+			end
 			
 			end
 					default: begin
