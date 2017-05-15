@@ -138,7 +138,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	
 	
 	initial begin
-		estado <= RESET
+		estado <= RESET;
 	end
 	
 	always @(clk posedge) begin
