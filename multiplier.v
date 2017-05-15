@@ -1,9 +1,9 @@
-module multiplier (clk, MultCtrl, MultReset, fator0, fator1, /**/ HI, LO, MultOUT)
+module multiplier (clk, MultCtrl, MultReset, fator0, fator1, /**/ HI, LO, MultOUT);
     input clk;
 	input MultCtrl;
 	input MultReset;
-    input reg [31:0] fatorA;
-    input reg [31:0] fatorB;
+    input [31:0] fatorA;
+    input [31:0] fatorB;
     
 	reg [63:0] multiplicando;
 	reg [31:0] multiplicador;
