@@ -1,4 +1,4 @@
-module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, PCWrite, PCWriteCond, IorD, MemD, MemToReg, Write, IRWrite, ALUflag, ShiftSrc, ShiftN, set, RegDst, MemDReg, RegWrite, MultCtrl, DivCtrl, AluSrcA, AluSrcB, ALUop, EPCWrite, HICtrl, LOCtrl, PCSource);
+module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCtrl, PCWrite, PCWriteCond, IorD, MemD, MemToReg, Write, IRWrite, ALUflag, ShiftSrc, ShiftN, set, RegDst, MemDReg, RegWrite, MultCtrl, DivCtrl, AluSrcA, AluSrcB, ALUop, EPCWrite, HICtrl, LOCtrl, PCSource);
 
 	input clk;
 	input reset;
@@ -7,6 +7,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 	input ET;
 	input GT;
 	input LT;
+	input Zero;
 	input MultOut;
 	input DivOut;
 	input divZero;
@@ -525,45 +526,121 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 			end
 				
 			BEQ: begin
-				AluSrcA <= ;
-				ALuSrcB <= ;
-				ALUop   <= ;
+				AluSrcA <= 2'b01;
+				ALuSrcB <= 3'b000;
+				ALUop   <= 3'b010;
 				
-				estado <= BRANCH_END1;
+				estado <= BRANCH_CONFIRMATION_EQ;
 			end
 				
 			BNE: begin
-				AluSrcA <= ;
-				ALuSrcB <= ;
-				ALUop   <= ;
+				AluSrcA <= 2'b01;
+				ALuSrcB <= 3'b000;
+				ALUop   <= 3'b010;
 				
-				estado <= BRANCH_END1;
+				estado <= BRANCH_CONFIRMATION_NEQ;
 			end
 				
 			BLE: begin
-				AluSrcA <= ;
-				ALuSrcB <= ;
-				ALUop   <= ;
+				AluSrcA <= 2'b01;
+				ALuSrcB <= 3'b000;
+				ALUop   <= 3'b111;
 				
-				estado <= BRANCH_END1;
+				estado <= BRANCH_CONFIRMATION_LE;
 			end
 				
 			BGT: begin
-				AluSrcA <= ;
-				ALuSrcB <= ;
-				ALUop   <= ;
+				AluSrcA <= 2'b01;
+				ALuSrcB <= 3'b000;
+				ALUop   <= 3'b111;
 				
-				estado <= BRANCH_END1;
+				estado <= BRANCH_CONFIRMATION_GT;
 			end
 				
 			BEQM: begin
-				AluSrcA <= ;
-				ALuSrcB <= ;
-				ALUop   <= ;
+				IorD  <= 1'b0;
+				Write <= 1'b0;
 				
-				estado <= BRANCH_END1;
+				estado <= BEQM_2;
 			end
+			
+			BEQM_2: begin
+				AluSrcA <= 2'b01;
+				ALuSrcB <= 3'b000;
+				ALUop   <= 3'b010;
 				
+				estado <= BRANCH_CONFIRMATION_EQ;
+			end
+		
+			BRANCH_CONFIRMATION_EQ: begin
+				if(Zero)begin
+					estado <= BRANCH_END_EQ;
+				end else begin
+					estado <= RESET;
+				end
+			end
+						
+			BRANCH_CONFIRMATION_NEQ begin
+				if(Zero == 1'b0)begin
+					estado <= BRANCH_END_NEQ;
+				end else begin
+					estado <= RESET;
+				end
+			end
+			
+			BRANCH_CONFIRMATION_LE begin
+				if(GT == 1'b0)begin
+					estado <= BRANCH_END1_LE;
+				end else begin
+					estado <= RESET;
+				end
+			end
+			
+			BRANCH_CONFIRMATION_GT begin
+				if(GT == 1'b1)begin
+					estado <= BRANCH_END1_GT;
+				end else begin
+					estado <= RESET;
+				end
+			end			
+			
+			BRANCH_END_EQ: begin
+				PCSource 	<= 3'b001;
+				PCCtrl   	<= 1'b0;
+				ALUflag  	<= 2'b10;
+				PCWriteCond <= 1'b1;
+				
+				estado <= RESET;
+			end
+			
+			BRANCH_END_NEQ begin	
+				PCSource 	<= 3'b001;
+				PCCtrl   	<= 1'b0;
+				ALUflag  	<= 2'b11;
+				PCWriteCond <= 1'b1;
+				
+				estado <= RESET;
+			end
+			
+			BRANCH_END_LE begin
+				PCSource 	<= 3'b001;
+				PCCtrl   	<= 1'b0;
+				ALUflag  	<= 2'b00;
+				PCWriteCond <= 1'b1;
+				
+				estado <= RESET;
+			end
+
+			BRANCH_END_GT begin
+				PCSource 	<= 3'b001;
+				PCCtrl   	<= 1'b0;
+				ALUflag  	<= 2'b01;
+				PCWriteCond <= 1'b1;
+				
+				estado <= RESET;
+			end
+			
+			
 			LB: begin
 			
 			end 
