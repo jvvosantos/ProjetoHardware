@@ -727,18 +727,70 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				estado   <= RESET;
 			end
 			
-				
+			//ADICIONAR WAITS NOS STORES E NO RESTO TBM			
 			SW: begin
-			
+				AluSrcA <= 2'b10;
+				ALuSrcB <= 3'b011;
+ 				ALUop   <= 3'b001; 
+				
+				estado <= SW_END;
 			end
 				
 			SH: begin
-			
+				AluSrcA <= 2'b10;
+				ALuSrcB <= 3'b011;
+ 				ALUop   <= 3'b001; 
+				
+				estado <= SH_MID;
 			end
 				
 			SB: begin
-			
+				AluSrcA <= 2'b10;
+				ALuSrcB <= 3'b011;
+ 				ALUop   <= 3'b001; 
+				
+				estado <= SB_MID;
 			end
+			
+			SW_END: begin
+				IorD  <= 3'b010;
+				MemD  <= 2'b00;
+				Write <= 1'b1;
+				
+				estado <= RESET;
+			end
+			
+			SH_MID: begin
+				IorD  <= 3'b010;
+				Write <= 1'b1;
+				
+				estado <= SH_END;
+			end
+			
+			SB_MID: begin
+				IorD  <= 3'b010;
+				Write <= 1'b1;
+				
+				estado <= SB_END;
+			end
+			
+			SH_END: begin
+				IorD  <= 3'b010;
+				MemD  <= 2'b10;
+				Write <= 1'b1;
+				
+				estado <= RESET;
+			end
+			
+			SB_END: begin
+				IorD  <= 3'b010;
+				MemD  <= 2'b01;
+				Write <= 1'b1;
+				
+				estado <= RESET;
+			end
+			
+			
 				
 			SLTI: begin
 				AluSrcA <= 2'b10;
