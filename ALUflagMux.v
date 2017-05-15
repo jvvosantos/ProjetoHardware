@@ -5,6 +5,7 @@ input in_OR;
 input in_gt;
 input in_zero;
 input in_Nzero;
+output reg mux_out;
 
 always @(ALUflag) begin
 	
