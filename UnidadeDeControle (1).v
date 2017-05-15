@@ -493,31 +493,75 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, /**/ PCCtrl, P
 			//EXECUCAO TIPO I
 			
 			ADDI: begin
+				AluSrcA <= 2'b01;
+				ALuSrcB <= 3'b010;
+				ALUop   <= 3'b001;
+				
+				estado <= ADDI_END;
+			end
 			
+			ADDI_END: begin
+				RegDst   <= 3'b000;
+				MemToReg <= 4'b0110;
+				RegWrite <= 1'b1;
+				
+				estado <= RESET;
 			end
 				
 			ADDIU: begin
+				AluSrcA <= 2'b10;
+				ALuSrcB <= 3'b010;
+				ALUop   <= 3'b111;
+				
+				estado <= ADDIU_END;
+			end
 			
+			ADDIU_END: begin
+				RegDst   <= 3'b000;
+				MemToReg <= 4'b0111;
+				RegWrite <= 1'b1;
+				
+				estado <= RESET;
 			end
 				
 			BEQ: begin
-			
+				AluSrcA <= ;
+				ALuSrcB <= ;
+				ALUop   <= ;
+				
+				estado <= BRANCH_END1;
 			end
 				
 			BNE: begin
-			
+				AluSrcA <= ;
+				ALuSrcB <= ;
+				ALUop   <= ;
+				
+				estado <= BRANCH_END1;
 			end
 				
 			BLE: begin
-			
+				AluSrcA <= ;
+				ALuSrcB <= ;
+				ALUop   <= ;
+				
+				estado <= BRANCH_END1;
 			end
 				
 			BGT: begin
-			
+				AluSrcA <= ;
+				ALuSrcB <= ;
+				ALUop   <= ;
+				
+				estado <= BRANCH_END1;
 			end
 				
 			BEQM: begin
-			
+				AluSrcA <= ;
+				ALuSrcB <= ;
+				ALUop   <= ;
+				
+				estado <= BRANCH_END1;
 			end
 				
 			LB: begin
