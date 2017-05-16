@@ -1,6 +1,6 @@
 module ShiftLeft2 (inPut, /**/ outPut); 
 	input [25:0] inPut;
-	output [27:0] outPut;
+	output reg [27:0] outPut;
 
 	always @(*) begin
 		outPut = {inPut, 2'b0};

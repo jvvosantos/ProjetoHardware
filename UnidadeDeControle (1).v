@@ -1,4 +1,5 @@
-module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCCtrl, PCWrite, PCWriteCond, IorD, MemD, MemToReg, Write, IRWrite, ALUflag, ShiftSrc, ShiftN, set, RegDst, MemDReg, RegWrite, MultCtrl, DivCtrl, AluSrcA, AluSrcB, ALUop, EPCWrite, HICtrl, LOCtrl, PCSource);
+module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCCtrl, PCWrite, PCWriteCond, IorD, MemD, MemToReg, Write, IRWrite, ALUflag, ShiftSrc, ShiftN,
+							set, RegDst, MemD, RegWrite, MultCtrl, DivCtrl, AluSrcA, AluSrcB, ALUop, EPCWrite, HICtrl, LOCtrl, PCSource, DivOut, divZero, MultOut);
 
 	input clk;
 	input reset;
@@ -12,7 +13,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 	input DivOut;
 	input divZero;
 
-	output reg [5:0] estadoSaida;
+//	output reg [5:0] estadoSaida;
 
 	reg [5:0] estado;
 
@@ -29,7 +30,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 	output reg [1:0] ShiftN;
 	output reg set;
 	output reg [2:0] RegDst;
-	output reg [3:0] MemtoReg;
+	output reg [3:0] MemToReg;
 	output reg RegWrite;
 	output reg MultCtrl;
 	output reg DivCtrl;
@@ -50,63 +51,63 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 
 	//ESTADOS
 	// TIPO R
-	parameter ADD = 4;
+	parameter Add = 4;
 	parameter AND = 5;
-	parameter DIV = 6;
-	parameter MULT = 7;
-	parameter JR = 8;
-	parameter MFHI = 9;
-	parameter MFLO = 10;
-	parameter SLL = 11;
-	parameter SLV = 12;
-	parameter SLT = 13;
-	parameter SRA = 14;
-	parameter SRAV = 15;
-	parameter SRL = 16;
-	parameter SUB = 17;
-	parameter BREAK = 18;
-	parameter RTE = 19;
-	parameter END_ADD = 50;
+	parameter Div = 6;
+	parameter Mult = 7;
+	parameter Jr = 8;
+	parameter Mfhi = 9;
+	parameter Mflo = 10;
+	parameter Sll = 11;
+	parameter Slv = 12;
+	parameter Slt = 13;
+	parameter Sra = 14;
+	parameter Srav = 15;
+	parameter Srl = 16;
+	parameter Sub = 17;
+	parameter Break = 18;
+	parameter Rte = 19;
+	parameter END_Add = 50;
 	parameter DIV_0 = 51;
-	parameter SHIFT_END = 52;
-	parameter END_SLT = 53;
+	parameter Shift_END = 52;
+	parameter END_Slt = 53;
 
 	//ESTADOS
 	// TIPO I
-	parameter ADDI = 20;
-	parameter ADDIU = 21;
-	parameter BEQ = 22;
-	parameter BNE = 23;
-	parameter BLE = 24;
-	parameter BGT = 25;
-	parameter BEQM = 26;
-	parameter LB = 27;
-	parameter LH = 28;
-	parameter LUI = 29;
-	parameter LW = 30;
-	parameter SB = 31;
-	parameter SH = 32;
-	parameter SLTI = 33;
-	parameter SW = 34;
-	parameter  ADDI_END = 70;
-	parameter  ADDIU_END = 71;
-	parameter  BRANCH_CONFIRMATION_EQ = 72;
-	parameter  BRANCH_CONFIRMATION_LE = 73;
-	parameter  BRANCH_CONFIRMATION_GT = 74;
-	parameter  BEQM_2 = 74;
-	parameter  BRANCH_END_EQ = 75;
-	parameter  BRANCH_END_NEQ = 76;
-	parameter  BRANCH_END_LE = 77;
-	parameter  BRANCH_END_GT = 78;
-	parameter  LW_MID = 79;
-	parameter  LH_MID = 80;
-	parameter  LB_MID = 81;
-	parameter  LW_END = 82;
-	parameter  LH_END = 83;
-	parameter  LB_END = 84;
-	parameter  LUI_END = 85;
-	parameter  SW_END = 86;
-	parameter  SH_MID = 87;
+	parameter Addi = 20;
+	parameter Addiu = 21;
+	parameter Beq = 22;
+	parameter Bne = 23;
+	parameter Ble = 24;
+	parameter Bgt = 25;
+	parameter Beqm = 26;
+	parameter Lb = 27;
+	parameter Lh = 28;
+	parameter Lui = 29;
+	parameter Lw = 30;
+	parameter Sb = 31;
+	parameter Sh = 32;
+	parameter Slti = 33;
+	parameter Sw = 34;
+	parameter  Addi_END = 70;
+	parameter  Addiu_END = 71;
+	parameter  BRANCH_CONFIRMATION_eq = 72;
+	parameter  BRANCH_CONFIRMATION_le = 73;
+	parameter  BRANCH_CONFIRMATION_gt = 74;
+	parameter  Beqm_2 = 74;
+	parameter  Branch_END_EQ = 75;
+	parameter  BRANCH_END_neq = 76;
+	parameter  BRANCH_END_le = 77;
+	parameter  BRANCH_END_gt = 78;
+	parameter  Lw_MID = 79;
+	parameter  Lh_MID = 80;
+	parameter  Lb_MID = 81;
+	parameter  Lw_END = 82;
+	parameter  Lh_END = 83;
+	parameter  Lb_END = 84;
+	parameter  Lui_END = 85;
+	parameter  Sw_END = 86;
+	parameter  Sh_MID = 87;
 	parameter  SB_MID = 88;
 	parameter  SH_END = 89;
 	parameter  SB_END = 90;
@@ -115,8 +116,8 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 
 	//ESTADOS
 	// TIPO J
-	parameter J = 35;
-	parameter JAL = 36;
+	parameter j = 35;
+	parameter Jal = 36;
 	parameter  JAL_END = 92;
 
 
@@ -205,144 +206,144 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 					OPCODE_R: begin
 						case(funct)
 							FUNCT_ADD: begin
-								estado  <= ADD;
+								estado  <= Add;
 							end
 
 							FUNCT_AND: begin
-								estado  <= ADD;
+								estado  <= Add;
 							end
 
 
 							FUNCT_DIV: begin
-								estado <= DIV;
+								estado <= Div;
 							end
 
 
 							FUNCT_MULT: begin
-								estado <= MULT;
+								estado <= Mult;
 							end
 
 							FUNCT_JR: begin
-								estado	 <= JR;
+								estado	 <= Jr;
 							end
 
 							FUNCT_MFHI: begin
-								estado   <= MFHI;
+								estado   <= Mfhi;
 							end
 
 							FUNCT_MFLO: begin
-								estado   <= MFLO;
+								estado   <= Mflo;
 							end
 
 							FUNCT_SLL: begin
-								estado 	  <= SLL;
+								estado 	  <= Sll;
 							end
 
 							FUNCT_SLV: begin
-								estado 	  <= SLV;
+								estado 	  <= Slv;
 							end
 
 							FUNCT_SLT: begin
-								estado <= SLT;
+								estado <= Slt;
 							end
 
 							FUNCT_SRA: begin
-								estado 	  <= SRA;
+								estado 	  <= Sra;
 							end
 
 							FUNCT_SRAV: begin
-								estado 	  <= SRAV;
+								estado 	  <= Srav;
 							end
 
 							FUNCT_SRL: begin
-								estado 	  <= SRL;
+								estado 	  <= Srl;
 							end
 
 							FUNCT_SUB: begin
-								estado  <= SUB;
+								estado  <= Sub;
 							end
 
 							FUNCT_BREAK: begin
-								estado <= BREAK;
+								estado <= Break;
 							end
 
 							FUNCT_RTE: begin
-								estado <= RTE;
+								estado <= Rte;
 							end
 
 							default: begin
-								state <= OPCODE_INEXISTENTE;
+								estado <= OPCODE_INEXISTENTE;
 							end
 
 						endcase
 					end
 
 					OPCODE_ADDI: begin
-						estado <= ADDI;
+						estado <= Addi;
 					end
 
 					OPCODE_ADDIU: begin
-						estado <= ADDIU;
+						estado <= Addiu;
 					end
 
 					OPCODE_BEQ: begin
-						estado <= BEQ;
+						estado <= Beq;
 					end
 
 					OPCODE_BNE: begin
-						estado <= BNE;
+						estado <= Bne;
 					end
 
 					OPCODE_BLE: begin
-						estado <= BLE;
+						estado <= Ble;
 					end
 
 					OPCODE_BGT: begin
-						estado <= BGT;
+						estado <= Bgt;
 					end
 
 					OPCODE_BEQM: begin
-						estado <= BEQM;
+						estado <= Beqm;
 					end
 
 					OPCODE_LB: begin
-						estado <= LB;
+						estado <= Lb;
 					end
 
 					OPCODE_LH: begin
-						estado <= LH;
+						estado <= Lh;
 					end
 
 					OPCODE_LUI: begin
-						estado <= LUI;
+						estado <= Lui;
 					end
 
 					OPCODE_LW: begin
-						estado <= LW;
+						estado <= Lw;
 					end
 
 					OPCODE_SB: begin
-						estado <= SB;
+						estado <= Sb;
 					end
 
 					OPCODE_SH: begin
-						estado <= SH;
+						estado <= Sh;
 					end
 
 					OPCODE_SLTI: begin
-						estado <= SLTI;
+						estado <= Slti;
 					end
 
 					OPCODE_SW: begin
-						estado <= SW;
+						estado <= Sw;
 					end
 
 					OPCODE_J: begin
-						estado <= J;
+						estado <= j;
 					end
 
 					OPCODE_JAL: begin
-						estado <= JAL;
+						estado <= Jal;
 					end
 
 				endcase
@@ -355,7 +356,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				AluSrcA <= 2'b10;
 				ALUop   <= 3'b001;
 
-				estado  <= END_ADD;
+				estado  <= END_Add;
 			end
 
 			AND: begin
@@ -363,7 +364,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				AluSrcA <= 2'b10;
 				ALUop   <= 3'b011;
 
-				estado  <= END_ADD;
+				estado  <= END_Add;
 			end
 
 			//incompleto
@@ -378,7 +379,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				if(DivOut) begin
 				end
 
-				state <= RESET;
+				estado <= RESET;
 			end
 
 			//incompleto
@@ -424,49 +425,49 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 			SLL: begin
 				ShiftN    <= 2'b01;
 				ShiftSrc  <= 2'b00;
-				Set       <= 3'b010;
+				set       <= 3'b010;
 
-				estado 	  <= SHIFT_END;
+				estado 	  <= Shift_END;
 			end
 
 			SLV: begin
 				ShiftN    <= 2'b00;
 				ShiftSrc  <= 2'b01;
-				Set       <= 3'b010;
+				set       <= 3'b010;
 
-				estado 	  <= SHIFT_END;
+				estado 	  <= Shift_END;
 			end
 
 			SLT: begin
 				AluSrcA <= 2'b01;
-				ALuSrcB <= 3'b000;
+				AluSrcB <= 3'b000;
 				ALUop   <= 3'b111;
 
-				estado <= END_SLT;
+				estado <= END_Slt;
 			end
 
 			SRA: begin
 				ShiftN    <= 2'b01;
 				ShiftSrc  <= 2'b00;
-				Set       <= 3'b100;
+				set       <= 3'b100;
 
-				estado 	  <= SHIFT_END;
+				estado 	  <= Shift_END;
 			end
 
 			SRAV: begin
 				ShiftN    <= 2'b00;
 				ShiftSrc  <= 2'b01;
-				Set       <= 3'b100;
+				set       <= 3'b100;
 
-				estado 	  <= SHIFT_END;
+				estado 	  <= Shift_END;
 			end
 
 			SRL: begin
 				ShiftN    <= 2'b01;
 				ShiftSrc  <= 2'b00;
-				Set       <= 3'b011;
+				set       <= 3'b011;
 
-				estado 	  <= SHIFT_END;
+				estado 	  <= Shift_END;
 			end
 
 			SUB: begin
@@ -474,7 +475,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				AluSrcA <= 2'b10;
 				ALUop   <= 3'b010;
 
-				estado  <= END_ADD;
+				estado  <= END_Add;
 			end
 
 			BREAK: begin
@@ -527,10 +528,10 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 
 			ADDI: begin
 				AluSrcA <= 2'b01;
-				ALuSrcB <= 3'b010;
+				AluSrcB <= 3'b010;
 				ALUop   <= 3'b001;
 
-				estado <= ADDI_END;
+				estado <= Addi_END;
 			end
 
 			ADDI_END: begin
@@ -543,10 +544,10 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 
 			ADDIU: begin
 				AluSrcA <= 2'b10;
-				ALuSrcB <= 3'b010;
+				AluSrcB <= 3'b010;
 				ALUop   <= 3'b111;
 
-				estado <= ADDIU_END;
+				estado <= Addiu_END;
 			end
 
 			ADDIU_END: begin
@@ -559,62 +560,62 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 
 			BEQ: begin
 				AluSrcA <= 2'b01;
-				ALuSrcB <= 3'b000;
+				AluSrcB <= 3'b000;
 				ALUop   <= 3'b010;
 
-				estado <= BRANCH_CONFIRMATION_EQ;
+				estado <= BRANCH_CONFIRMATION_eq;
 			end
 
 			BNE: begin
 				AluSrcA <= 2'b01;
-				ALuSrcB <= 3'b000;
+				AluSrcB <= 3'b000;
 				ALUop   <= 3'b010;
 
-				estado <= BRANCH_CONFIRMATION_NEQ;
+				estado <= Branch_CONFIRMATION_NEQ;
 			end
 
 			BLE: begin
 				AluSrcA <= 2'b01;
-				ALuSrcB <= 3'b000;
+				AluSrcB <= 3'b000;
 				ALUop   <= 3'b111;
 
-				estado <= BRANCH_CONFIRMATION_LE;
+				estado <= BRANCH_CONFIRMATION_le;
 			end
 
 			BGT: begin
 				AluSrcA <= 2'b01;
-				ALuSrcB <= 3'b000;
+				AluSrcB <= 3'b000;
 				ALUop   <= 3'b111;
 
-				estado <= BRANCH_CONFIRMATION_GT;
+				estado <= BRANCH_CONFIRMATION_gt;
 			end
 
 			BEQM: begin
 				IorD  <= 3'b000;
 				Write <= 1'b0;
 
-				estado <= BEQM_2;
+				estado <= Beqm_2;
 			end
 
 			BEQM_2: begin
 				AluSrcA <= 2'b01;
-				ALuSrcB <= 3'b000;
+				AluSrcB <= 3'b000;
 				ALUop   <= 3'b010;
 
-				estado <= BRANCH_CONFIRMATION_EQ;
+				estado <= BRANCH_CONFIRMATION_eq;
 			end
 
 			BRANCH_CONFIRMATION_EQ: begin
 				if(Zero)begin
-					estado <= BRANCH_END_EQ;
+					estado <= Branch_END_EQ;
 				end else begin
 					estado <= RESET;
 				end
 			end
 
-			BRANCH_CONFIRMATION_NEQ: begin
+			Branch_CONFIRMATION_NEQ: begin
 				if(Zero == 1'b0)begin
-					estado <= BRANCH_END_NEQ;
+					estado <= BRANCH_END_neq;
 				end else begin
 					estado <= RESET;
 				end
@@ -622,7 +623,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 
 			BRANCH_CONFIRMATION_LE: begin
 				if(GT == 1'b0)begin
-					estado <= BRANCH_END_LE;
+					estado <= BRANCH_END_le;
 				end else begin
 					estado <= RESET;
 				end
@@ -630,13 +631,13 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 
 			BRANCH_CONFIRMATION_GT: begin
 				if(GT == 1'b1)begin
-					estado <= BRANCH_END_GT;
+					estado <= BRANCH_END_gt;
 				end else begin
 					estado <= RESET;
 				end
 			end
 
-			BRANCH_END_EQ: begin
+			Branch_END_EQ: begin
 				PCSource 	<= 2'b01;
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b10;
@@ -654,7 +655,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				estado <= RESET;
 			end
 
-			BRANCH_END_LE: begin
+			BRANCH_END_le: begin
 				PCSource 	<= 2'b01;
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b00;
@@ -663,7 +664,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				estado <= RESET;
 			end
 
-			BRANCH_END_GT: begin
+			BRANCH_END_gt: begin
 				PCSource 	<= 2'b01;
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b01;
@@ -675,50 +676,50 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 
 			LW: begin
 				AluSrcA <= 2'b10;
-				ALuSrcB <= 3'b010;
+				AluSrcB <= 3'b010;
 				ALUop	<= 3'b001;
 
-				estado <= LW_MID;
+				estado <= Lw_MID;
 			end
 
 			LH: begin
 				AluSrcA <= 2'b10;
-				ALuSrcB <= 3'b010;
+				AluSrcB <= 3'b010;
 				ALUop	<= 3'b001;
 
-				estado <= LH_MID;
+				estado <= Lh_MID;
 			end
 
 			LB: begin
 				AluSrcA <= 2'b10;
-				ALuSrcB <= 3'b010;
+				AluSrcB <= 3'b010;
 				ALUop	<= 3'b001;
 
-				estado <= LB_MID;
+				estado <= Lb_MID;
 			end
 
-			LW_MID: begin
+			Lw_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b0;
 
-				estado <= LW_END;
+				estado <= Lw_END;
 			end
 
-			LH_MID: begin
+			Lh_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b0;
 
-				estado <= LH_END;
+				estado <= Lh_END;
 			end
 
-			LB_MID: begin
+			Lb_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b0;
 
-				estado <= LB_END;
+				estado <= Lb_END;
 			end
 
-			LW_END: begin
+			Lw_END: begin
 				RegDst	  <= 3'b000;
 				MemToReg  <= 4'b0010;
 				RegWrite  <= 1'b1;
@@ -726,7 +727,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				estado <= RESET;
 			end
 
-			LH_END: begin
+			Lh_END: begin
 				RegDst	  <= 3'b000;
 				MemToReg  <= 4'b0000;
 				RegWrite  <= 1'b1;
@@ -734,7 +735,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				estado <= RESET;
 			end
 
-			LB_END: begin
+			Lb_END: begin
 				RegDst	  <= 3'b000;
 				MemToReg  <= 4'b0001;
 				RegWrite  <= 1'b1;
@@ -746,12 +747,12 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 			LUI: begin
 				ShiftN	 <= 2'b10;
 				ShiftSrc <= 2'b10;
-				Set		 <= 3'b010;
+				set		 <= 3'b010;
 
-				estado 	 <= LUI_END;
+				estado 	 <= Lui_END;
 			end
 
-			LUI_END: begin
+			Lui_END: begin
 				RegDst   <= 3'b000;
 				MemToReg <= 4'b0001;
 				RegWrite <= 1'b1;
@@ -762,29 +763,29 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 			//ADICIONAR WAITS NOS STORES E NO RESTO TBM
 			SW: begin
 				AluSrcA <= 2'b10;
-				ALuSrcB <= 3'b011;
+				AluSrcB <= 3'b011;
  				ALUop   <= 3'b001;
 
-				estado <= SW_END;
+				estado <= Sw_END;
 			end
 
 			SH: begin
 				AluSrcA <= 2'b10;
-				ALuSrcB <= 3'b011;
+				AluSrcB <= 3'b011;
  				ALUop   <= 3'b001;
 
-				estado <= SH_MID;
+				estado <= Sh_MID;
 			end
 
 			SB: begin
 				AluSrcA <= 2'b10;
-				ALuSrcB <= 3'b011;
+				AluSrcB <= 3'b011;
  				ALUop   <= 3'b001;
 
 				estado <= SB_MID;
 			end
 
-			SW_END: begin
+			Sw_END: begin
 				IorD  <= 3'b010;
 				MemD  <= 2'b00;
 				Write <= 1'b1;
@@ -792,7 +793,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				estado <= RESET;
 			end
 
-			SH_MID: begin
+			Sh_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b1;
 
@@ -826,7 +827,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 
 			SLTI: begin
 				AluSrcA <= 2'b10;
-				ALuSrcB <= 3'b010;
+				AluSrcB <= 3'b010;
 				ALUop   <= 3'b111;
 
 				estado <= SLTI_END;
@@ -856,7 +857,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				PCCtrl 	 <= 1'b0;
 				PCWrite  <= 1'b1;
 				AluSrcA  <= 2'b00;
-				ALuSrcB  <= 3'b100;
+				AluSrcB  <= 3'b100;
 				ALUop    <= 3'b001;
 
 				estado <= JAL_END;
