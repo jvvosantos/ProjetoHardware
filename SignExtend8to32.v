@@ -1,4 +1,4 @@
-module SignExtend8to32 (inPut, /**/ outPut) begin
+module SignExtend8to32 (inPut, /**/ outPut);
 	input [7:0] inPut;
 	output [31:0] outPut;
 
@@ -6,4 +6,4 @@ module SignExtend8to32 (inPut, /**/ outPut) begin
 		if (inPut[7]) outPut = ~({24'b0, (~inPut + 1)}) + 1;
 		else outPut = {24'b0, inPut};
 	end
-end
+endmodule
