@@ -461,7 +461,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 			end
 
 			RTE: begin
-				PCSource <= 3'b011;
+				PCSource <= 2'b11;
 				PCCtrl   <= 1'b0;
 				PCWrite  <= 1'b1;
 
@@ -562,7 +562,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 			end
 
 			BEQM: begin
-				IorD  <= 1'b0;
+				IorD  <= 3'b000;
 				Write <= 1'b0;
 
 				estado <= BEQM_2;
@@ -609,7 +609,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 			end
 
 			BRANCH_END_EQ: begin
-				PCSource 	<= 3'b001;
+				PCSource 	<= 2'b01;
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b10;
 				PCWriteCond <= 1'b1;
@@ -618,7 +618,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 			end
 
 			BRANCH_END_NEQ begin
-				PCSource 	<= 3'b001;
+				PCSource 	<= 2'b01;
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b11;
 				PCWriteCond <= 1'b1;
@@ -627,7 +627,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 			end
 
 			BRANCH_END_LE begin
-				PCSource 	<= 3'b001;
+				PCSource 	<= 2'b01;
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b00;
 				PCWriteCond <= 1'b1;
@@ -636,7 +636,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 			end
 
 			BRANCH_END_GT begin
-				PCSource 	<= 3'b001;
+				PCSource 	<= 2'b01;
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b01;
 				PCWriteCond <= 1'b1;
@@ -816,7 +816,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 			//EXECUCAO TIPO J
 
 			J: begin
-				PCSource <= 3'b010;
+				PCSource <= 2'b10;
 				PCCtrl   <= 1'b0;
 				PCWrite  <= 1'b1;
 
@@ -824,7 +824,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 			end
 
 			JAL: begin
-				PCSource <= 3'b010;
+				PCSource <= 2'b10;
 				PCCtrl 	 <= 1'b0;
 				PCWrite  <= 1'b1
 				AluSrcA  <= 2'b00;
