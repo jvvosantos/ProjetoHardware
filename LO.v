@@ -1,4 +1,5 @@
-module LO (LOIn, /**/ LOOut);
+module LO (clk, LOIn, /**/ LOOut);
+	input clk;
 	input [31:0] LOIn;
 	output reg [31:0] LOOut;
 
