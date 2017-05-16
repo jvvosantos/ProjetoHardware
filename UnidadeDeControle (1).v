@@ -1,4 +1,4 @@
-module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCtrl, PCWrite, PCWriteCond, IorD, MemD, MemToReg, Write, IRWrite, ALUflag, ShiftSrc, ShiftN, set, RegDst, MemDReg, RegWrite, MultCtrl, DivCtrl, AluSrcA, AluSrcB, ALUop, EPCWrite, HICtrl, LOCtrl, PCSource);
+module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCCtrl, PCWrite, PCWriteCond, IorD, MemD, MemToReg, Write, IRWrite, ALUflag, ShiftSrc, ShiftN, set, RegDst, MemDReg, RegWrite, MultCtrl, DivCtrl, AluSrcA, AluSrcB, ALUop, EPCWrite, HICtrl, LOCtrl, PCSource);
 
 	input clk;
 	input reset;
@@ -16,7 +16,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 
 	reg [5:0] estado;
 
-	output reg PCCtrl,;
+	output reg PCCtrl;
 	output reg PCWrite;
 	output reg PCWriteCond;
 	output reg [2:0] IorD;
@@ -145,7 +145,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 	parameter FUNCT_ADD    = 6'h20;
 	parameter FUNCT_AND    = 6'h24;
 	parameter FUNCT_DIV	   = 6'h1a;
-	parameter FUNCT_MULT   = 6'18;
+	parameter FUNCT_MULT   = 6'h18;
 	parameter FUNCT_JR     = 6'h8;
 	parameter FUNCT_MFHI   = 6'h10;
 	parameter FUNCT_MFLO   = 6'h12;
@@ -167,7 +167,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 		estado <= RESET;
 	end
 
-	always @(clk posedge) begin
+	always@(posedge clk) begin
 		case (estado)
 			//lendo da memoria a instrucao no endereco de PC
 			RESET: begin
@@ -175,7 +175,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				IorD     <= 3'b001;
 				Write    <= 1'b0;
 
-				estado   <= BUSCA
+				estado   <= BUSCA;
 			end
 
 			BUSCA: begin
@@ -198,6 +198,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				AluSrcB  <= 3'b011;
 				ALUop    <= 3'b001;
 
+				//decodificando
 				case(opcode)
 
 					OPCODE_R: begin
@@ -609,7 +610,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				end
 			end
 
-			BRANCH_CONFIRMATION_NEQ begin
+			BRANCH_CONFIRMATION_NEQ: begin
 				if(Zero == 1'b0)begin
 					estado <= BRANCH_END_NEQ;
 				end else begin
@@ -617,7 +618,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				end
 			end
 
-			BRANCH_CONFIRMATION_LE begin
+			BRANCH_CONFIRMATION_LE: begin
 				if(GT == 1'b0)begin
 					estado <= BRANCH_END_LE;
 				end else begin
@@ -625,7 +626,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				end
 			end
 
-			BRANCH_CONFIRMATION_GT begin
+			BRANCH_CONFIRMATION_GT: begin
 				if(GT == 1'b1)begin
 					estado <= BRANCH_END_GT;
 				end else begin
@@ -642,7 +643,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				estado <= RESET;
 			end
 
-			BRANCH_END_NEQ begin
+			BRANCH_END_NEQ: begin
 				PCSource 	<= 2'b01;
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b11;
@@ -651,7 +652,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				estado <= RESET;
 			end
 
-			BRANCH_END_LE begin
+			BRANCH_END_LE: begin
 				PCSource 	<= 2'b01;
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b00;
@@ -660,7 +661,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				estado <= RESET;
 			end
 
-			BRANCH_END_GT begin
+			BRANCH_END_GT: begin
 				PCSource 	<= 2'b01;
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b01;
@@ -851,12 +852,12 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 			JAL: begin
 				PCSource <= 2'b10;
 				PCCtrl 	 <= 1'b0;
-				PCWrite  <= 1'b1
+				PCWrite  <= 1'b1;
 				AluSrcA  <= 2'b00;
 				ALuSrcB  <= 3'b100;
 				ALUop    <= 3'b001;
 
-				estado JAL_END;
+				estado <= JAL_END;
 			end
 
 			JAL_END: begin
@@ -866,17 +867,17 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				estado   <= RESET;
 			end
 
+
+			default: begin
+				state <= OPCODE_INEXISTENTE;
 			end
-					default: begin
-						state <= OPCODE_INEXISTENTE;
-					end
-				endcase
 
-
-
-
+			end
 
 		endcase
-	end
 
+
+//fim do always
+
+	end
 endmodule
