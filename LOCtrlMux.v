@@ -8,8 +8,14 @@ output reg [31:0] lo_out;
 always @(LOCtrl) begin
 	
 	case (LOCtrl)
-		0: lo_out <= in_mult;
-		1: lo_out <= in_div;
+		0: 
+			begin
+				lo_out <= in_mult;
+			end
+		1: 
+			begin
+				lo_out <= in_div;
+			end
 	endcase
 end
 endmodule

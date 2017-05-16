@@ -9,12 +9,30 @@ output reg [31:0] mux_out;
 always @(IorD) begin
 	
 	case (IorD)
-		3b'000: mux_out <= in_regA;
-		3b'001: mux_out <= in_PC;
-		3b'010: mux_out <= in_ALUout;
-		3b'011: mux_out <= 16b'1110001111111101;
-		3b'100: mux_out <= 16b'1110001111111110;
-		3b'101: mux_out <= 16b'1110001111111111;		
+		3'b000: 
+			begin
+				mux_out <= in_regA;
+			end
+		3'b001: 
+			begin
+				mux_out <= in_PC;
+			end
+		3'b010: 
+			begin
+				mux_out <= in_ALUout;
+			end
+		3'b011: 
+			begin
+				mux_out <= 16'b1110001111111101;
+			end
+		3'b100: 
+			begin
+				mux_out <= 16'b1110001111111110;
+			end
+		3'b101: 
+			begin
+				mux_out <= 16'b1110001111111111;		
+			end
 	endcase
 end
 endmodule

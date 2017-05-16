@@ -8,8 +8,14 @@ output reg [31:0] hi_out;
 always @(HICtrl) begin
 	
 	case (HICtrl)
-		0: hi_out <= in_mult;
-		1: hi_out <= in_div;
+		0: 
+			begin
+				hi_out <= in_mult;
+			end
+		1: 
+			begin
+				hi_out <= in_div;
+			end
 	endcase
 end
 endmodule

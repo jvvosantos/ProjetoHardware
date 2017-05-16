@@ -10,10 +10,22 @@ output reg [31:0] mux_out;
 always @(PCSource) begin
 	
 	case (PCSource)
-		2b'00: mux_out <= in_ALUresult;
-		2b'01: mux_out <= in_ALUout;
-		2b'10: mux_out <= in_JInst;
-		2b'11: mux_out <= in_EPC;
+		2'b00: 
+			begin
+				mux_out <= in_ALUresult;
+			end
+		2'b01: 
+			begin
+				mux_out <= in_ALUout;
+			end
+		2'b10: 
+			begin
+				mux_out <= in_JInst;
+			end
+		2'b11: 
+			begin
+				mux_out <= in_EPC;
+			end
 	endcase
 end
 endmodule

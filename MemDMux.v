@@ -9,9 +9,18 @@ output reg [31:0] mux_out;
 always @(MemD) begin
 	
 	case (MemD)
-		2b'00: mux_out <= in_wordB;
-		2b'01: mux_out <= in_byteB;
-		2b'10: mux_out <= in_halfB;
+		2'b00: 
+			begin
+				mux_out <= in_wordB;
+			end
+		2'b01: 
+			begin
+				mux_out <= in_byteB;
+			end
+		2'b10: 
+			begin
+				mux_out <= in_halfB;
+			end
 	endcase
 end
 endmodule

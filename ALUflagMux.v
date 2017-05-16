@@ -10,10 +10,22 @@ output reg mux_out;
 always @(ALUflag) begin
 	
 	case (ALUflag)
-		2b'00: mux_out <= in_OR;
-		2b'01: mux_out <= in_gt;
-		2b'10: mux_out <= in_zero;
-		2b'11: mux_out <= in_Nzero;
+		2'b00: 
+			begin
+				mux_out <= in_OR;
+			end
+		2'b01: 
+			begin
+				mux_out <= in_gt;
+			end
+		2'b10: 
+			begin
+				mux_out <= in_zero;
+			end
+		2'b11: 
+			begin
+				mux_out <= in_Nzero;
+			end
 	endcase
 end
 endmodule

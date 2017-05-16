@@ -9,11 +9,26 @@ output reg [31:0] mux_out;
 always @(ALUSrcB) begin
 	
 	case (ALUSrcB)
-		3b'000: mux_out <= in_B;
-		3b'001: mux_out <= 32b'100;
-		3b'010: mux_out <= in_signExt;
-		3b'011: mux_out <= in_signExtSL;
-		3b'100: mux_out <= 32b'000;
+		3'b000: 
+			begin
+				mux_out <= in_regB;
+			end
+		3'b001:
+			begin
+				mux_out <= 32'b100;
+			end
+		3'b010:
+			begin
+				mux_out <= in_signExt;
+			end
+		3'b011:
+			begin
+				mux_out <= in_signExtSL;
+			end
+		3'b100:
+			begin
+				mux_out <= 32'b000;
+			end
 	endcase
 end
 endmodule

@@ -1,4 +1,4 @@
-module ALUSrcAMux (ALUSrcA, in_pc, in_mdr, in_regA, hi_out);
+module ALUSrcAMux (ALUSrcA, in_pc, in_mdr, in_regA, mux_out);
 
 input [1:0] ALUSrcA;
 input [31:0] in_pc;
@@ -9,9 +9,18 @@ output reg [31:0] mux_out;
 always @(ALUSrcA) begin
 	
 	case (ALUSrcA)
-		2b'00: mux_out <= in_pc;
-		2b'01: mux_out <= in_mdr;
-		2b'10: mux_out <= in_regA;
+		2'b00: 
+			begin
+				mux_out <= in_pc;
+			end
+		2'b01: 
+			begin
+				mux_out <= in_mdr;
+			end	
+		2'b10: 
+			begin
+				mux_out <= in_regA;
+			end
 	endcase
 end
 endmodule

@@ -8,8 +8,14 @@ output reg [31:0] mux_out;
 always @(PCCtrl) begin
 	
 	case (PCCtrl)
-		0: mux_out <= in_PCSource;
-		1: mux_out <= in_MemData;
+		0: 
+			begin
+				mux_out <= in_PCSource;
+			end
+		1: 
+			begin
+				mux_out <= in_MemData;
+			end
 	endcase
 end
 endmodule
