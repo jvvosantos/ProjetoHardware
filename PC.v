@@ -1,5 +1,5 @@
-module PC (PCWriteCond, PCWrite, ALUflagMuxOut, /**/, instructionOut);
-	input PCWriteCond, PCWrite, ALUflagMuxOut;
+module PC (clk, PCWriteCond, PCWrite, ALUflagMuxOut, /**/, instructionOut);
+	input clk, PCWriteCond, PCWrite, ALUflagMuxOut;
 	input [31:0] instructionIn;
 
 	output reg [31:0] instructionOut;
