@@ -873,7 +873,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 			end
 
 			end
-
+			
 		endcase
 
 
