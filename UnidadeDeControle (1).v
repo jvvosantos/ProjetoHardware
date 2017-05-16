@@ -21,6 +21,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 	output reg PCWriteCond;
 	output reg [2:0] IorD;
 	output reg [1:0] MemD;
+
 	output reg Write;
 	output reg IRWrite;
 	output reg [1:0] ALUflag;
@@ -385,6 +386,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				MultCtrl <= 1'b1;
 
 				if(MultOut) begin
+
 					MultCtrl <= 1'b0;
 					estado <= RESET;
 				end
@@ -868,12 +870,9 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 			end
 
 
-			default: begin
-				state <= OPCODE_INEXISTENTE;
-			end
+
 
 			end
-			
 		endcase
 
 
