@@ -87,11 +87,36 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 	parameter SH = 32;
 	parameter SLTI = 33;
 	parameter SW = 34;
+	parameter  ADDI_END = 70;
+	parameter  ADDIU_END = 71;
+	parameter  BRANCH_CONFIRMATION_EQ = 72;
+	parameter  BRANCH_CONFIRMATION_LE = 73;
+	parameter  BRANCH_CONFIRMATION_GT = 74;
+	parameter  BEQM_2 = 74;
+	parameter  BRANCH_END_EQ = 75;
+	parameter  BRANCH_END_NEQ = 76;
+	parameter  BRANCH_END_LE = 77;
+	parameter  BRANCH_END_GT = 78;
+	parameter  LW_MID = 79;
+	parameter  LH_MID = 80;
+	parameter  LB_MID = 81;
+	parameter  LW_END = 82;
+	parameter  LH_END = 83;
+	parameter  LB_END = 84;
+	parameter  LUI_END = 85;
+	parameter  SW_END = 86;
+	parameter  SH_MID = 87;
+	parameter  SB_MID = 88;
+	parameter  SH_END = 89;
+	parameter  SB_END = 90;
+	parameter  SLTI_END = 91;
+
 
 	//ESTADOS
 	// TIPO J
 	parameter J = 35;
 	parameter JAL = 36;
+	parameter  JAL_END = 92;
 
 
 
