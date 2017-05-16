@@ -1,4 +1,4 @@
-module PC (/**/);
+module PC (PCWriteCond, PCWrite, ALUflagMuxOut, /**/, instructionOut);
 	input PCWriteCond, PCWrite, ALUflagMuxOut;
 	input [31:0] instructionIn;
 
