@@ -11,7 +11,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 	input MultOut;
 	input DivOut;
 	input divZero;
-	
+
 	output reg [5:0] estadoSaida;
 
 	reg [5:0] estado;
@@ -36,18 +36,18 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 	output reg [2:0] AluSrcB;
 	output reg [2:0] ALUop;
 	output reg EPCWrite;
-	output reg HICtrl; 
+	output reg HICtrl;
 	output reg LOCtrl;
 	output reg [1:0] PCSource;
-	
+
 	// DEFINICAO DOS ESTADOS
 	parameter RESET = 0;
 	parameter BUSCA = 1;
-	parameter DECODIFICAO = 2; 
+	parameter DECODIFICAO = 2;
 	parameter BRANCH_CALC = 37;
 	parameter WAIT = 3;
-	
-	//ESTADOS	
+
+	//ESTADOS
 	// TIPO R
 	parameter ADD = 4;
 	parameter AND = 5;
@@ -65,11 +65,11 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 	parameter SUB = 17;
 	parameter BREAK = 18;
 	parameter RTE = 19;
-	parameter END_ADD = 50; 
+	parameter END_ADD = 50;
 	parameter DIV_0 = 51;
 	parameter SHIFT_END = 52;
 	parameter END_SLT = 53;
-	
+
 	//ESTADOS
 	// TIPO I
 	parameter ADDI = 20;
@@ -87,14 +87,14 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 	parameter SH = 32;
 	parameter SLTI = 33;
 	parameter SW = 34;
-	
+
 	//ESTADOS
 	// TIPO J
 	parameter J = 35;
 	parameter JAL = 36;
 
-	
-	
+
+
 	// OPCODES DAS INSTRUCOES
 	parameter OPCODE_R = 6'h0;
 	parameter OPCODE_ADDI = 6'h8;
@@ -131,17 +131,17 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 	parameter FUNCT_SRAV   = 6'h7;
 	parameter FUNCT_SRL    = 6'h2;
 	parameter FUNCT_SUB    = 6'h22;
-	parameter FUNCT_BREAK  = 6'hxd; 
+	parameter FUNCT_BREAK  = 6'hxd;
 	parameter FUNCT_RTE    = 6'h13;
-	
+
 	//EXCESSOES
 	parameter OPCODE_INEXISTENTE = 50;
-	
-	
+
+
 	initial begin
 		estado <= RESET;
 	end
-	
+
 	always @(clk posedge) begin
 		case (estado)
 			//lendo da memoria a instrucao no endereco de PC
@@ -149,10 +149,10 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				//pegando o endereco de PC e lendo da memoria com esse endereco
 				IorD     <= 3'b001;
 				Write    <= 1'b0;
-				
+
 				estado   <= BUSCA
 			end
-			
+
 			BUSCA: begin
 				//escrevendo a instrucao no IRWrite
 				//incrementando o PC e atualizando seu valor
@@ -163,228 +163,232 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				PCSource <= 2'b0;
 				PCCtrl   <= 1'b0;
 				PCWrite  <= 1'b0;
-				
+
 				estado   <= DECODIFICAO;
 			end
-			
+
 			DECODIFICAO: begin
 				//calculo de um possivel branch
 				AluSrcA  <= 2'b0;
 				AluSrcB  <= 3'b011;
 				ALUop    <= 3'b001;
-				
-				case(opcode) 
-					
+
+				case(opcode)
+
 					OPCODE_R: begin
 						case(funct)
 							FUNCT_ADD: begin
-								estado  <= ADD; 
+								estado  <= ADD;
 							end
-							
+
 							FUNCT_AND: begin
-								estado  <= ADD; 
+								estado  <= ADD;
 							end
-							
-							
+
+
 							FUNCT_DIV: begin
 								estado <= DIV;
 							end
-							
-							
+
+
 							FUNCT_MULT: begin
-								estado <= MULT;		
+								estado <= MULT;
 							end
-							
+
 							FUNCT_JR: begin
 								estado	 <= JR;
 							end
-							
+
 							FUNCT_MFHI: begin
-								estado   <= MFHI; 
+								estado   <= MFHI;
 							end
-							
+
 							FUNCT_MFLO: begin
 								estado   <= MFLO;
 							end
 
 							FUNCT_SLL: begin
 								estado 	  <= SLL;
-							end 
-							
+							end
+
 							FUNCT_SLV: begin
 								estado 	  <= SLV;
-							end 
-							
+							end
+
 							FUNCT_SLT: begin
 								estado <= SLT;
-							end    
+							end
 
 							FUNCT_SRA: begin
 								estado 	  <= SRA;
-							end    
+							end
 
 							FUNCT_SRAV: begin
 								estado 	  <= SRAV;
-							end   
-							
+							end
+
 							FUNCT_SRL: begin
 								estado 	  <= SRL;
-							end    
+							end
 
 							FUNCT_SUB: begin
-								estado  <= SUB; 
-							end    
+								estado  <= SUB;
+							end
 
 							FUNCT_BREAK: begin
 								estado <= BREAK;
-							end   
+							end
 
 							FUNCT_RTE: begin
 								estado <= RTE;
 							end
-							
+
+							default: begin
+								state <= OPCODE_INEXISTENTE;
+							end
+
 						endcase
 					end
-					
+
 					OPCODE_ADDI: begin
 						estado <= ADDI;
 					end
-					
+
 					OPCODE_ADDIU: begin
 						estado <= ADDIU;
 					end
-					
+
 					OPCODE_BEQ: begin
 						estado <= BEQ;
 					end
-					
+
 					OPCODE_BNE: begin
 						estado <= BNE;
 					end
-					
+
 					OPCODE_BLE: begin
 						estado <= BLE;
 					end
-					
+
 					OPCODE_BGT: begin
 						estado <= BGT;
 					end
-					
+
 					OPCODE_BEQM: begin
 						estado <= BEQM;
 					end
-					
-					OPCODE_LB: begin 
+
+					OPCODE_LB: begin
 						estado <= LB;
 					end
-					
+
 					OPCODE_LH: begin
 						estado <= LH;
 					end
-					
+
 					OPCODE_LUI: begin
 						estado <= LUI;
 					end
-					
+
 					OPCODE_LW: begin
 						estado <= LW;
 					end
-					
+
 					OPCODE_SB: begin
 						estado <= SB;
 					end
-					
+
 					OPCODE_SH: begin
 						estado <= SH;
 					end
-					
+
 					OPCODE_SLTI: begin
 						estado <= SLTI;
 					end
-					
+
 					OPCODE_SW: begin
 						estado <= SW;
 					end
-					
+
 					OPCODE_J: begin
 						estado <= J;
 					end
-					
+
 					OPCODE_JAL: begin
 						estado <= JAL;
 					end
-					
+
 				endcase
-			
+
 			//EXECUCOES TIPO R
-			
-			
+
+
 			ADD: begin
 				AluSrcB <= 3'b000;
-				AluSrcA <= 3'b010;
+				AluSrcA <= 2'b10;
 				ALUop   <= 3'b001;
-					
-				estado  <= END_ADD; 
+
+				estado  <= END_ADD;
 			end
-							
+
 			AND: begin
 				AluSrcB <= 3'b000;
-				AluSrcA <= 3'b010;
+				AluSrcA <= 2'b10;
 				ALUop   <= 3'b011;
-								
-				estado  <= END_ADD; 
+
+				estado  <= END_ADD;
 			end
-							
+
 			//incompleto
 			DIV: begin
 				DivCtrl <= 1'b1;
-			
+
 				if(divZero) begin
 					DivCtrl <= 1'b0;
 					estado  <= DIV_0;
 				end
-								
+
 				if(DivOut) begin
 				end
-								
+
 				state <= RESET;
 			end
-							
+
 			//incompleto
 			MULT: begin
 				MultCtrl <= 1'b1;
-				
-				if(MultOut)begin
+
+				if(MultOut) begin
 					MultCtrl <= 1'b0;
 					estado <= RESET;
 				end
-					
+
 			end
-						
+
 			JR: begin
-				AluSrcA  <= 3'b010;
+				AluSrcA  <= 2'b10;
 				AluSrcB  <= 3'b100;
 				ALUop    <= 3'b001;
 				PCSource <= 2'b00;
 				PCCtrl	 <= 1'b0;
 				PCWrite  <= 1'b1;
-								
+
 				estado	 <= RESET;
 			end
-							
+
 			MFHI: begin
 				RegDst   <= 3'b001;
 				MemToReg <= 4'b0100;
 				RegWrite <= 1'b1;
-					
-				estado   <= RESET; 
+
+				estado   <= RESET;
 			end
-							
+
 			MFLO: begin
 				RegDst   <= 3'b001;
 				MemToReg <= 4'b0101;
 				RegWrite <= 1'b1;
-					
+
 				estado   <= RESET;
 			end
 
@@ -393,57 +397,57 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				ShiftN    <= 2'b01;
 				ShiftSrc  <= 2'b00;
 				Set       <= 3'b010;
-				
+
 				estado 	  <= SHIFT_END;
-			end 
-				
+			end
+
 			SLV: begin
 				ShiftN    <= 2'b00;
 				ShiftSrc  <= 2'b01;
 				Set       <= 3'b010;
-				
+
 				estado 	  <= SHIFT_END;
-			end 
-						
+			end
+
 			SLT: begin
 				AluSrcA <= 2'b01;
 				ALuSrcB <= 3'b000;
 				ALUop   <= 3'b111;
-													
+
 				estado <= END_SLT;
-			end    
-			
+			end
+
 			SRA: begin
 				ShiftN    <= 2'b01;
 				ShiftSrc  <= 2'b00;
 				Set       <= 3'b100;
-					
+
 				estado 	  <= SHIFT_END;
-			end    
+			end
 
 			SRAV: begin
 				ShiftN    <= 2'b00;
 				ShiftSrc  <= 2'b01;
 				Set       <= 3'b100;
-				
+
 				estado 	  <= SHIFT_END;
-			end   
-						
+			end
+
 			SRL: begin
 				ShiftN    <= 2'b01;
 				ShiftSrc  <= 2'b00;
 				Set       <= 3'b011;
-					
+
 				estado 	  <= SHIFT_END;
-			end    
+			end
 
 			SUB: begin
 				AluSrcB <= 3'b000;
-				AluSrcA <= 3'b010;
+				AluSrcA <= 2'b10;
 				ALUop   <= 3'b010;
-				
-				estado  <= END_ADD; 
-			end    
+
+				estado  <= END_ADD;
+			end
 
 			BREAK: begin
 				AluSrcA  <= 2'b00;
@@ -452,126 +456,126 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				PCSource <= 2'b00;
 				PCCtrl   <= 1'b0;
 				PCWrite  <= 1'b1;
-								
+
 				estado <= RESET;
-			end   
+			end
 
 			RTE: begin
 				PCSource <= 3'b011;
 				PCCtrl   <= 1'b0;
 				PCWrite  <= 1'b1;
-						
+
 				estado <= RESET;
 			end
-			
+
 			//segunda parte do add/sub/and
 			END_ADD: begin
 				RegDst   <= 3'b001;
 				MemToReg <= 4'b0110;
 				RegWrite <= 1'b1;
-				
+
 				estado <= RESET;
 			end
-				
+
 			END_SLT: begin
 				RegDst   <= 3'b001;
 				MemToReg <= 4'b0111;
 				RegWrite <= 1'b1;
-				
+
 				estado <= RESET;
-				
+
 			end
-			
+
 			SHIFT_END: begin
 				RegDst   <= 3'b000;
 				MemToReg <= 4'b0011;
 				RegWrite <= 1'b1;
-				
+
 				estado <= RESET;
 			end
-				
-			
+
+
 			//EXECUCAO TIPO I
-			
+
 			ADDI: begin
 				AluSrcA <= 2'b01;
 				ALuSrcB <= 3'b010;
 				ALUop   <= 3'b001;
-				
+
 				estado <= ADDI_END;
 			end
-			
+
 			ADDI_END: begin
 				RegDst   <= 3'b000;
 				MemToReg <= 4'b0110;
 				RegWrite <= 1'b1;
-				
+
 				estado <= RESET;
 			end
-				
+
 			ADDIU: begin
 				AluSrcA <= 2'b10;
 				ALuSrcB <= 3'b010;
 				ALUop   <= 3'b111;
-				
+
 				estado <= ADDIU_END;
 			end
-			
+
 			ADDIU_END: begin
 				RegDst   <= 3'b000;
 				MemToReg <= 4'b0111;
 				RegWrite <= 1'b1;
-				
+
 				estado <= RESET;
 			end
-				
+
 			BEQ: begin
 				AluSrcA <= 2'b01;
 				ALuSrcB <= 3'b000;
 				ALUop   <= 3'b010;
-				
+
 				estado <= BRANCH_CONFIRMATION_EQ;
 			end
-				
+
 			BNE: begin
 				AluSrcA <= 2'b01;
 				ALuSrcB <= 3'b000;
 				ALUop   <= 3'b010;
-				
+
 				estado <= BRANCH_CONFIRMATION_NEQ;
 			end
-				
+
 			BLE: begin
 				AluSrcA <= 2'b01;
 				ALuSrcB <= 3'b000;
 				ALUop   <= 3'b111;
-				
+
 				estado <= BRANCH_CONFIRMATION_LE;
 			end
-				
+
 			BGT: begin
 				AluSrcA <= 2'b01;
 				ALuSrcB <= 3'b000;
 				ALUop   <= 3'b111;
-				
+
 				estado <= BRANCH_CONFIRMATION_GT;
 			end
-				
+
 			BEQM: begin
 				IorD  <= 1'b0;
 				Write <= 1'b0;
-				
+
 				estado <= BEQM_2;
 			end
-			
+
 			BEQM_2: begin
 				AluSrcA <= 2'b01;
 				ALuSrcB <= 3'b000;
 				ALUop   <= 3'b010;
-				
+
 				estado <= BRANCH_CONFIRMATION_EQ;
 			end
-		
+
 			BRANCH_CONFIRMATION_EQ: begin
 				if(Zero)begin
 					estado <= BRANCH_END_EQ;
@@ -579,7 +583,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 					estado <= RESET;
 				end
 			end
-						
+
 			BRANCH_CONFIRMATION_NEQ begin
 				if(Zero == 1'b0)begin
 					estado <= BRANCH_END_NEQ;
@@ -587,47 +591,47 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 					estado <= RESET;
 				end
 			end
-			
+
 			BRANCH_CONFIRMATION_LE begin
 				if(GT == 1'b0)begin
-					estado <= BRANCH_END1_LE;
+					estado <= BRANCH_END_LE;
 				end else begin
 					estado <= RESET;
 				end
 			end
-			
+
 			BRANCH_CONFIRMATION_GT begin
 				if(GT == 1'b1)begin
-					estado <= BRANCH_END1_GT;
+					estado <= BRANCH_END_GT;
 				end else begin
 					estado <= RESET;
 				end
-			end			
-			
+			end
+
 			BRANCH_END_EQ: begin
 				PCSource 	<= 3'b001;
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b10;
 				PCWriteCond <= 1'b1;
-				
+
 				estado <= RESET;
 			end
-			
-			BRANCH_END_NEQ begin	
+
+			BRANCH_END_NEQ begin
 				PCSource 	<= 3'b001;
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b11;
 				PCWriteCond <= 1'b1;
-				
+
 				estado <= RESET;
 			end
-			
+
 			BRANCH_END_LE begin
 				PCSource 	<= 3'b001;
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b00;
 				PCWriteCond <= 1'b1;
-				
+
 				estado <= RESET;
 			end
 
@@ -636,189 +640,189 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				PCCtrl   	<= 1'b0;
 				ALUflag  	<= 2'b01;
 				PCWriteCond <= 1'b1;
-				
+
 				estado <= RESET;
 			end
-			
-			
+
+
 			LW: begin
-				AluSrcA <= 2'b10; 
+				AluSrcA <= 2'b10;
 				ALuSrcB <= 3'b010;
 				ALUop	<= 3'b001;
-				
+
 				estado <= LW_MID;
 			end
-			
+
 			LH: begin
-				AluSrcA <= 2'b10; 
+				AluSrcA <= 2'b10;
 				ALuSrcB <= 3'b010;
 				ALUop	<= 3'b001;
-				
+
 				estado <= LH_MID;
 			end
-			
+
 			LB: begin
-				AluSrcA <= 2'b10; 
+				AluSrcA <= 2'b10;
 				ALuSrcB <= 3'b010;
 				ALUop	<= 3'b001;
-				
+
 				estado <= LB_MID;
 			end
-			
+
 			LW_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b0;
-				
+
 				estado <= LW_END;
 			end
-			
+
 			LH_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b0;
-				
+
 				estado <= LH_END;
 			end
-			
+
 			LB_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b0;
-				
+
 				estado <= LB_END;
 			end
-			
+
 			LW_END: begin
 				RegDst	  <= 3'b000;
 				MemToReg  <= 4'b0010;
 				RegWrite  <= 1'b1;
-			
+
 				estado <= RESET;
 			end
-			
+
 			LH_END: begin
 				RegDst	  <= 3'b000;
 				MemToReg  <= 4'b0000;
 				RegWrite  <= 1'b1;
-			
+
 				estado <= RESET;
 			end
-			
+
 			LB_END: begin
 				RegDst	  <= 3'b000;
 				MemToReg  <= 4'b0001;
 				RegWrite  <= 1'b1;
-			
+
 				estado <= RESET;
 			end
-			
-			
+
+
 			LUI: begin
 				ShiftN	 <= 2'b10;
 				ShiftSrc <= 2'b10;
 				Set		 <= 3'b010;
-				
+
 				estado 	 <= LUI_END;
 			end
-			
+
 			LUI_END: begin
 				RegDst   <= 3'b000;
 				MemToReg <= 4'b0001;
 				RegWrite <= 1'b1;
-				
+
 				estado   <= RESET;
 			end
-			
-			//ADICIONAR WAITS NOS STORES E NO RESTO TBM			
+
+			//ADICIONAR WAITS NOS STORES E NO RESTO TBM
 			SW: begin
 				AluSrcA <= 2'b10;
 				ALuSrcB <= 3'b011;
- 				ALUop   <= 3'b001; 
-				
+ 				ALUop   <= 3'b001;
+
 				estado <= SW_END;
 			end
-				
+
 			SH: begin
 				AluSrcA <= 2'b10;
 				ALuSrcB <= 3'b011;
- 				ALUop   <= 3'b001; 
-				
+ 				ALUop   <= 3'b001;
+
 				estado <= SH_MID;
 			end
-				
+
 			SB: begin
 				AluSrcA <= 2'b10;
 				ALuSrcB <= 3'b011;
- 				ALUop   <= 3'b001; 
-				
+ 				ALUop   <= 3'b001;
+
 				estado <= SB_MID;
 			end
-			
+
 			SW_END: begin
 				IorD  <= 3'b010;
 				MemD  <= 2'b00;
 				Write <= 1'b1;
-				
+
 				estado <= RESET;
 			end
-			
+
 			SH_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b1;
-				
+
 				estado <= SH_END;
 			end
-			
+
 			SB_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b1;
-				
+
 				estado <= SB_END;
 			end
-			
+
 			SH_END: begin
 				IorD  <= 3'b010;
 				MemD  <= 2'b10;
 				Write <= 1'b1;
-				
+
 				estado <= RESET;
 			end
-			
+
 			SB_END: begin
 				IorD  <= 3'b010;
 				MemD  <= 2'b01;
 				Write <= 1'b1;
-				
+
 				estado <= RESET;
 			end
-			
-			
-				
+
+
+
 			SLTI: begin
 				AluSrcA <= 2'b10;
 				ALuSrcB <= 3'b010;
 				ALUop   <= 3'b111;
-				
+
 				estado <= SLTI_END;
 			end
-			
+
 			SLTI_END: begin
 				RegDst   <= 3'b000;
 				MemToReg <= 4'b0111;
 				RegWrite <= 1'b1;
-				
+
 				estado <= RESET;
 			end
-			
-			
+
+
 			//EXECUCAO TIPO J
-				
+
 			J: begin
 				PCSource <= 3'b010;
 				PCCtrl   <= 1'b0;
 				PCWrite  <= 1'b1;
-				
+
 				estado   <= RESET;
 			end
-				
+
 			JAL: begin
 				PCSource <= 3'b010;
 				PCCtrl 	 <= 1'b0;
@@ -826,28 +830,28 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero /**/ PCCt
 				AluSrcA  <= 2'b00;
 				ALuSrcB  <= 3'b100;
 				ALUop    <= 3'b001;
-				
+
 				estado JAL_END;
 			end
-			
+
 			JAL_END: begin
-				RegDst   <= 3'b010; 
+				RegDst   <= 3'b010;
 				MemToReg <= 4'b0110;
-				
+
 				estado   <= RESET;
 			end
-			
+
 			end
 					default: begin
 						state <= OPCODE_INEXISTENTE;
 					end
 				endcase
-				
-				
-				
-				
-				
-		endcase 
+
+
+
+
+
+		endcase
 	end
 
 endmodule
