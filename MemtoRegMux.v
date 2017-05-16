@@ -14,18 +14,54 @@ output reg [31:0] mux_out;
 always @(MemtoReg) begin
 	
 	case (MemtoReg)
-		4b'0000: mux_out <= in_mdrExtI;
-		4b'0001: mux_out <= in_mdrExtII;
-		4b'0010: mux_out <= in_mdrWrite;
-		4b'0011: mux_out <= in_shift;
-		4b'0100: mux_out <= in_hi;
-		4b'0101: mux_out <= in_lo;
-		4b'0110: mux_out <= in_ALUOut;
-		4b'0111: mux_out <= in_lt;
-		4b'1000: mux_out <= 8b'11100011;
-		4b'1001: mux_out <= 2b'01;
-		4b'1010: mux_out <= 2b'10;
-		4b'1011: mux_out <= 2b'11;		
+		4'b0000: 
+			begin
+				mux_out <= in_mdrExtI;
+			end
+		4'b0001:
+			begin
+				mux_out <= in_mdrExtII;
+			end
+		4'b0010:
+			begin
+				mux_out <= in_mdrWrite;
+			end
+		4'b0011: 
+			begin
+				mux_out <= in_shift;
+			end
+		4'b0100:
+			begin
+			mux_out <= in_hi;
+			end
+		4'b0101:
+			begin
+				mux_out <= in_lo;
+			end
+		4'b0110:
+			begin
+			mux_out <= in_ALUOut;
+			end
+		4'b0111: 
+			begin
+				mux_out <= in_lt;
+			end
+		4'b1000:
+			begin
+				mux_out <= 8'b11100011;
+			end
+		4'b1001: 
+			begin
+				mux_out <= 2'b01;
+			end
+		4'b1010: 
+			begin
+				mux_out <= 2'b10;
+			end
+		4'b1011:
+			begin
+				mux_out <= 2'b11;		
+			end
 	endcase
 end
 endmodule

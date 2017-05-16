@@ -9,9 +9,18 @@ output reg [31:0] mux_out;
 always @(ShiftSrc) begin
 	
 	case (ShiftSrc)
-		2b'00: mux_out <= in_regA;
-		2b'01: mux_out <= in_regB;
-		2b'10: mux_out <= in_immed;
+		2'b00: 
+			begin
+				mux_out <= in_regA;
+			end
+		2'b01: 
+			begin
+				mux_out <= in_regB;
+			end
+		2'b10: 
+			begin
+				mux_out <= in_immed;
+			end
 	endcase
 end
 endmodule
