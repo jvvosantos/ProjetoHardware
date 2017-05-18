@@ -1,5 +1,4 @@
-module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCCtrl, PCWrite, PCWriteCond, IorD, MemD, MemToReg, Write, IRWrite, ALUflag, SHiftSrc, SHiftN,
-							set, RegDst, MemD, RegWrite, MultCtrl, DIVCtrl, AluSrcA, AluSrcB, ALUop, EPCWrite, HICtrl, LOCtrl, PCSource, DIVOut, divZero, MultOut);
+module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut, divZero, /**/ PCCtrl, PCWrite, PCWriteCond, IorD, MemD, Write, IRWrite, ALUflag, ShiftSrc, ShiftN, set, RegDst, MemToReg, RegWrite, MultCtrl, DIVCtrl, AluSrcA, AluSrcB, ALUop, EPCWrite, HICtrl, LOCtrl, PCSource);
 
 	input clk;
 	input reset;
@@ -10,7 +9,6 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 	input LT;
 	input Zero;
 	input MultOut;
-	input DIVOut;
 	input divZero;
 
 //	output reg [5:0] estadoSaida;
@@ -26,8 +24,8 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 	output reg Write;
 	output reg IRWrite;
 	output reg [1:0] ALUflag;
-	output reg [1:0] SHiftSrc;
-	output reg [1:0] SHiftN;
+	output reg [1:0] ShiftSrc;
+	output reg [1:0] ShiftN;
 	output reg set;
 	output reg [2:0] RegDst;
 	output reg [3:0] MemToReg;
@@ -45,7 +43,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 	// DEFINICAO DOS ESTADOS
 	parameter RESET = 0;
 	parameter BUSCA = 1;
-	parameter DECODIFICAO = 2;
+	parameter DECODIFICACAO = 2;
 	parameter BRANCH_CALC = 37;
 	parameter WAIT = 3;
 
@@ -135,6 +133,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 	parameter OPCODE_BEQM = 6'h1;
 	parameter OPCODE_LB = 6'h20;
 	parameter OPCODE_LH = 6'h21;
+	
 	parameter OPCODE_LUI = 6'hf;
 	parameter OPCODE_LW = 6'h23;
 	parameter OPCODE_SB = 6'h28;
@@ -173,7 +172,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 	always@(posedge clk) begin
 		case (estado)
 			//lendo da memoria a instrucao no endereco de PC
-			5'b00000: begin
+			5'b00000 /*RESET*/: begin
 				//pegando o endereco de PC e lendo da memoria com esse endereco
 				IorD     <= 3'b001;
 				Write    <= 1'b0;
@@ -181,7 +180,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				estado   <= BUSCA;
 			end
 
-			5'b00001: begin
+			5'b00001 /*BUSCA*/: begin
 				//escrevendo a instrucao no IRWrite
 				//incrementando o PC e atualizando seu valor
 				IRWrite  <= 1'b0;
@@ -192,10 +191,10 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				PCCtrl   <= 1'b0;
 				PCWrite  <= 1'b0;
 
-				estado   <= DECODIFICAO;
+				estado   <= DECODIFICACAO;
 			end
 
-			5'b00011: begin
+			5'b00010 /*DECODIFICACAO*/: begin
 				//calculo de um possivel branch
 				AluSrcA  <= 2'b0;
 				AluSrcB  <= 3'b011;
@@ -375,12 +374,9 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 				if(divZero) begin
 					DIVCtrl <= 1'b0;
 					estado  <= 51/* div_0 */;
+				end else begin
+					estado <= RESET;
 				end
-
-				if(DIVOut) begin
-				end
-
-				estado <= RESET;
 			end
 
 			//incompleto
@@ -424,16 +420,16 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 
 			//shitfs incompletos, verificar se precisa de waits
 			11/* sll */: begin
-				SHiftN    <= 2'b01;
-				SHiftSrc  <= 2'b00;
+				ShiftN    <= 2'b01;
+				ShiftSrc  <= 2'b00;
 				set       <= 3'b010;
 
 				estado 	  <= 52/* shift_end */;
 			end
 
 			12/* slv */: begin
-				SHiftN    <= 2'b00;
-				SHiftSrc  <= 2'b01;
+				ShiftN    <= 2'b00;
+				ShiftSrc  <= 2'b01;
 				set       <= 3'b010;
 
 				estado 	  <= 52/* shift_end */;
@@ -448,24 +444,24 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 			end
 
 			14/* sra */: begin
-				SHiftN    <= 2'b01;
-				SHiftSrc  <= 2'b00;
+				ShiftN    <= 2'b01;
+				ShiftSrc  <= 2'b00;
 				set       <= 3'b100;
 
 				estado 	  <= 52/* shift_end */;
 			end
 
 			15/* srav */: begin
-				SHiftN    <= 2'b00;
-				SHiftSrc  <= 2'b01;
+				ShiftN    <= 2'b00;
+				ShiftSrc  <= 2'b01;
 				set       <= 3'b100;
 
 				estado 	  <= 52/* shift_end */;
 			end
 
 			16/* srl */: begin
-				SHiftN    <= 2'b01;
-				SHiftSrc  <= 2'b00;
+				ShiftN    <= 2'b01;
+				ShiftSrc  <= 2'b00;
 				set       <= 3'b011;
 
 				estado 	  <= SHIFT_END;
@@ -746,8 +742,8 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, /**/ PCC
 
 
 			LUI: begin
-				SHiftN	 <= 2'b10;
-				SHiftSrc <= 2'b10;
+				ShiftN	 <= 2'b10;
+				ShiftSrc <= 2'b10;
 				set		 <= 3'b010;
 
 				estado 	 <= LUI_END;
