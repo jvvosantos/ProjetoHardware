@@ -27,7 +27,7 @@ module divisor (clk, reset, DivCtrl, divisor, dividendo, /**/ divZero, HI, LO);
     parameter FIN = 6'b100000;
     
     //Executar somente quando DivCtrl estiver ativado
-    always @(posedge clk && (DivCtrl || reset)) begin
+    always @(posedge clk && ((DivCtrl || reset) || start)) begin
 		if (reset) begin
 			divisorIn <= 64'b0;
 			dividendoIn <= 64'b0;
