@@ -1,0 +1,777 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2010 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+//#pragma file_not_in_maxplusii_format
+(header "graphic" (version "1.3"))
+(symbol
+	(rect 168 104 368 520)
+	(text "UnidadeDeControle" (rect 5 0 100 12)(font "Arial" ))
+	(text "inst" (rect 8 400 25 412)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "clk" (rect 0 0 14 12)(font "Arial" ))
+		(text "clk" (rect 21 27 35 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 1))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "reset" (rect 0 0 24 12)(font "Arial" ))
+		(text "reset" (rect 21 43 45 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 1))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "opcode[5..0]" (rect 0 0 61 12)(font "Arial" ))
+		(text "opcode[5..0]" (rect 21 59 82 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 3))
+	)
+	(port
+		(pt 0 80)
+		(input)
+		(text "funct[5..0]" (rect 0 0 51 12)(font "Arial" ))
+		(text "funct[5..0]" (rect 21 75 72 87)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80)(line_width 3))
+	)
+	(port
+		(pt 0 96)
+		(input)
+		(text "ET" (rect 0 0 12 12)(font "Arial" ))
+		(text "ET" (rect 21 91 33 103)(font "Arial" ))
+		(line (pt 0 96)(pt 16 96)(line_width 1))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "GT" (rect 0 0 14 12)(font "Arial" ))
+		(text "GT" (rect 21 107 35 119)(font "Arial" ))
+		(line (pt 0 112)(pt 16 112)(line_width 1))
+	)
+	(port
+		(pt 0 128)
+		(input)
+		(text "LT" (rect 0 0 11 12)(font "Arial" ))
+		(text "LT" (rect 21 123 32 135)(font "Arial" ))
+		(line (pt 0 128)(pt 16 128)(line_width 1))
+	)
+	(port
+		(pt 0 144)
+		(input)
+		(text "Zero" (rect 0 0 22 12)(font "Arial" ))
+		(text "Zero" (rect 21 139 43 151)(font "Arial" ))
+		(line (pt 0 144)(pt 16 144)(line_width 1))
+	)
+	(port
+		(pt 0 160)
+		(input)
+		(text "MultOut" (rect 0 0 37 12)(font "Arial" ))
+		(text "MultOut" (rect 21 155 58 167)(font "Arial" ))
+		(line (pt 0 160)(pt 16 160)(line_width 1))
+	)
+	(port
+		(pt 0 176)
+		(input)
+		(text "divZero" (rect 0 0 37 12)(font "Arial" ))
+		(text "divZero" (rect 21 171 58 183)(font "Arial" ))
+		(line (pt 0 176)(pt 16 176)(line_width 1))
+	)
+	(port
+		(pt 200 32)
+		(output)
+		(text "PCCtrl" (rect 0 0 33 12)(font "Arial" ))
+		(text "PCCtrl" (rect 146 27 179 39)(font "Arial" ))
+		(line (pt 200 32)(pt 184 32)(line_width 1))
+	)
+	(port
+		(pt 200 48)
+		(output)
+		(text "PCWrite" (rect 0 0 41 12)(font "Arial" ))
+		(text "PCWrite" (rect 138 43 179 55)(font "Arial" ))
+		(line (pt 200 48)(pt 184 48)(line_width 1))
+	)
+	(port
+		(pt 200 64)
+		(output)
+		(text "PCWriteCond" (rect 0 0 67 12)(font "Arial" ))
+		(text "PCWriteCond" (rect 112 59 179 71)(font "Arial" ))
+		(line (pt 200 64)(pt 184 64)(line_width 1))
+	)
+	(port
+		(pt 200 80)
+		(output)
+		(text "IorD[2..0]" (rect 0 0 47 12)(font "Arial" ))
+		(text "IorD[2..0]" (rect 132 75 179 87)(font "Arial" ))
+		(line (pt 200 80)(pt 184 80)(line_width 3))
+	)
+	(port
+		(pt 200 96)
+		(output)
+		(text "MemD[1..0]" (rect 0 0 57 12)(font "Arial" ))
+		(text "MemD[1..0]" (rect 122 91 179 103)(font "Arial" ))
+		(line (pt 200 96)(pt 184 96)(line_width 3))
+	)
+	(port
+		(pt 200 112)
+		(output)
+		(text "Write" (rect 0 0 25 12)(font "Arial" ))
+		(text "Write" (rect 154 107 179 119)(font "Arial" ))
+		(line (pt 200 112)(pt 184 112)(line_width 1))
+	)
+	(port
+		(pt 200 128)
+		(output)
+		(text "IRWrite" (rect 0 0 37 12)(font "Arial" ))
+		(text "IRWrite" (rect 142 123 179 135)(font "Arial" ))
+		(line (pt 200 128)(pt 184 128)(line_width 1))
+	)
+	(port
+		(pt 200 144)
+		(output)
+		(text "ALUflag[1..0]" (rect 0 0 66 12)(font "Arial" ))
+		(text "ALUflag[1..0]" (rect 113 139 179 151)(font "Arial" ))
+		(line (pt 200 144)(pt 184 144)(line_width 3))
+	)
+	(port
+		(pt 200 160)
+		(output)
+		(text "ShiftSrc[1..0]" (rect 0 0 66 12)(font "Arial" ))
+		(text "ShiftSrc[1..0]" (rect 113 155 179 167)(font "Arial" ))
+		(line (pt 200 160)(pt 184 160)(line_width 3))
+	)
+	(port
+		(pt 200 176)
+		(output)
+		(text "ShiftN[1..0]" (rect 0 0 57 12)(font "Arial" ))
+		(text "ShiftN[1..0]" (rect 122 171 179 183)(font "Arial" ))
+		(line (pt 200 176)(pt 184 176)(line_width 3))
+	)
+	(port
+		(pt 200 192)
+		(output)
+		(text "set" (rect 0 0 15 12)(font "Arial" ))
+		(text "set" (rect 164 187 179 199)(font "Arial" ))
+		(line (pt 200 192)(pt 184 192)(line_width 1))
+	)
+	(port
+		(pt 200 208)
+		(output)
+		(text "RegDst[2..0]" (rect 0 0 63 12)(font "Arial" ))
+		(text "RegDst[2..0]" (rect 116 203 179 215)(font "Arial" ))
+		(line (pt 200 208)(pt 184 208)(line_width 3))
+	)
+	(port
+		(pt 200 224)
+		(output)
+		(text "MemToReg[3..0]" (rect 0 0 81 12)(font "Arial" ))
+		(text "MemToReg[3..0]" (rect 98 219 179 231)(font "Arial" ))
+		(line (pt 200 224)(pt 184 224)(line_width 3))
+	)
+	(port
+		(pt 200 240)
+		(output)
+		(text "RegWrite" (rect 0 0 46 12)(font "Arial" ))
+		(text "RegWrite" (rect 133 235 179 247)(font "Arial" ))
+		(line (pt 200 240)(pt 184 240)(line_width 1))
+	)
+	(port
+		(pt 200 256)
+		(output)
+		(text "MultCtrl" (rect 0 0 37 12)(font "Arial" ))
+		(text "MultCtrl" (rect 142 251 179 263)(font "Arial" ))
+		(line (pt 200 256)(pt 184 256)(line_width 1))
+	)
+	(port
+		(pt 200 272)
+		(output)
+		(text "DIVCtrl" (rect 0 0 36 12)(font "Arial" ))
+		(text "DIVCtrl" (rect 143 267 179 279)(font "Arial" ))
+		(line (pt 200 272)(pt 184 272)(line_width 1))
+	)
+	(port
+		(pt 200 288)
+		(output)
+		(text "AluSrcA[1..0]" (rect 0 0 64 12)(font "Arial" ))
+		(text "AluSrcA[1..0]" (rect 115 283 179 295)(font "Arial" ))
+		(line (pt 200 288)(pt 184 288)(line_width 3))
+	)
+	(port
+		(pt 200 304)
+		(output)
+		(text "AluSrcB[2..0]" (rect 0 0 64 12)(font "Arial" ))
+		(text "AluSrcB[2..0]" (rect 115 299 179 311)(font "Arial" ))
+		(line (pt 200 304)(pt 184 304)(line_width 3))
+	)
+	(port
+		(pt 200 320)
+		(output)
+		(text "ALUop[2..0]" (rect 0 0 59 12)(font "Arial" ))
+		(text "ALUop[2..0]" (rect 120 315 179 327)(font "Arial" ))
+		(line (pt 200 320)(pt 184 320)(line_width 3))
+	)
+	(port
+		(pt 200 336)
+		(output)
+		(text "EPCWrite" (rect 0 0 48 12)(font "Arial" ))
+		(text "EPCWrite" (rect 131 331 179 343)(font "Arial" ))
+		(line (pt 200 336)(pt 184 336)(line_width 1))
+	)
+	(port
+		(pt 200 352)
+		(output)
+		(text "HICtrl" (rect 0 0 29 12)(font "Arial" ))
+		(text "HICtrl" (rect 150 347 179 359)(font "Arial" ))
+		(line (pt 200 352)(pt 184 352)(line_width 1))
+	)
+	(port
+		(pt 200 368)
+		(output)
+		(text "LOCtrl" (rect 0 0 31 12)(font "Arial" ))
+		(text "LOCtrl" (rect 148 363 179 375)(font "Arial" ))
+		(line (pt 200 368)(pt 184 368)(line_width 1))
+	)
+	(port
+		(pt 200 384)
+		(output)
+		(text "PCSource[1..0]" (rect 0 0 75 12)(font "Arial" ))
+		(text "PCSource[1..0]" (rect 104 379 179 391)(font "Arial" ))
+		(line (pt 200 384)(pt 184 384)(line_width 3))
+	)
+	(parameter
+		"RESET"
+		"0"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BUSCA"
+		"1"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"DECODIFICACAO"
+		"2"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BRANCH_CALC"
+		"37"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"WAIT"
+		"3"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"ADD"
+		"4"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"AND"
+		"5"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"DIV"
+		"6"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"MULT"
+		"7"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"JR"
+		"8"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"MFHI"
+		"9"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"MFLO"
+		"10"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SLL"
+		"11"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SLV"
+		"12"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SLT"
+		"13"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SRA"
+		"14"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SRAV"
+		"15"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SRL"
+		"16"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SUB"
+		"17"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BREAK"
+		"18"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"RTE"
+		"19"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"END_ADD"
+		"50"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"DIV_0"
+		"51"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SHIFT_END"
+		"52"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"END_SLT"
+		"53"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"ADDI"
+		"20"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"ADDIU"
+		"21"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BEQ"
+		"22"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BNE"
+		"23"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BLE"
+		"24"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BGT"
+		"25"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BEQM"
+		"26"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"LB"
+		"27"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"LH"
+		"28"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"LUI"
+		"29"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"LW"
+		"30"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SB"
+		"31"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SH"
+		"32"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SLTI"
+		"33"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SW"
+		"34"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"ADDI_END"
+		"70"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"ADDIU_END"
+		"71"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BRANCH_CONFIRMATION_EQ"
+		"72"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BRANCH_CONFIRMATION_LE"
+		"73"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BRANCH_CONFIRMATION_GT"
+		"74"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BRANCH_CONFIRMATION_NEQ"
+		"113"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BEQM_2"
+		"74"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BRANCH_END_EQ"
+		"75"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BRANCH_END_NEQ"
+		"76"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BRANCH_END_LE"
+		"77"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"BRANCH_END_GT"
+		"78"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"LW_MID"
+		"79"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"LH_MID"
+		"80"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"LB_MID"
+		"81"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"LW_END"
+		"82"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"LH_END"
+		"83"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"LB_END"
+		"84"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"LUI_END"
+		"85"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SW_END"
+		"86"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SH_MID"
+		"87"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SB_MID"
+		"88"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SH_END"
+		"89"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SB_END"
+		"90"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"SLTI_END"
+		"91"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"J"
+		"35"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"JAL"
+		"36"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"JAL_END"
+		"92"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(parameter
+		"OPCODE_R"
+		"000000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_ADDI"
+		"001000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_ADDIU"
+		"001001"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_BEQ"
+		"000100"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_RTE"
+		"010000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_BNE"
+		"000101"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_BLE"
+		"000110"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_BGT"
+		"000111"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_BEQM"
+		"000001"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_LB"
+		"100000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_LH"
+		"100001"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_LUI"
+		"001111"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_LW"
+		"100011"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_SB"
+		"101000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_SH"
+		"101001"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_SLTI"
+		"001010"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_SW"
+		"101011"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_J"
+		"000010"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_JAL"
+		"000011"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_ADD"
+		"100000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_AND"
+		"100100"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_DIV"
+		"011010"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_MULT"
+		"011000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_JR"
+		"001000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_MFHI"
+		"010000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_MFLO"
+		"010010"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_SLL"
+		"000000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_SLV"
+		"000100"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_SLT"
+		"101010"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_SRA"
+		"000011"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_SRAV"
+		"000111"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_SRL"
+		"000010"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_SUB"
+		"100010"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_BREAK"
+		"XX1101"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FUNCT_RTE"
+		"010011"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OPCODE_INEXISTENTE"
+		"50"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 184 400)(line_width 1))
+	)
+	(annotation_block (parameter)(rect 368 -1352 656 104))
+)

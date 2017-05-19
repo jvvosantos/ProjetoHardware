@@ -183,7 +183,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 			5'b00001 /*BUSCA*/: begin
 				//escrevendo a instrucao no IRWrite
 				//incrementando o PC e atualizando seu valor
-				IRWrite  <= 1'b0;
+				IRWrite  <= 1'b1;
 				AluSrcA  <= 2'b0;
 				AluSrcB  <= 3'b001;
 				ALUop    <= 3'b001;
@@ -351,7 +351,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 			//EXECUCOES TIPO R
 			end
 
-			4: begin //add
+			4/* add */: begin
 				AluSrcB <= 3'b000;
 				AluSrcA <= 2'b10;
 				ALUop   <= 3'b001;
@@ -368,7 +368,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 			end
 
 			//incompleto
-			6 /*div*/: begin
+			6 /* div */: begin
 				DIVCtrl <= 1'b1;
 
 				if(divZero) begin
@@ -523,7 +523,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 
 			//EXECUCAO TIPO I
 
-			ADDI: begin
+			20/* addi */: begin
 				AluSrcA <= 2'b01;
 				AluSrcB <= 3'b010;
 				ALUop   <= 3'b001;
@@ -531,7 +531,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 				estado <= ADDI_END;
 			end
 
-			ADDI_END: begin
+			70/* addi_end */: begin
 				RegDst   <= 3'b000;
 				MemToReg <= 4'b0110;
 				RegWrite <= 1'b1;
@@ -539,7 +539,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 				estado <= RESET;
 			end
 
-			ADDIU: begin
+			21/* addiu */: begin
 				AluSrcA <= 2'b10;
 				AluSrcB <= 3'b010;
 				ALUop   <= 3'b111;
@@ -547,7 +547,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 				estado <= ADDIU_END;
 			end
 
-			ADDIU_END: begin
+			71 /* addiu_end */: begin
 				RegDst   <= 3'b000;
 				MemToReg <= 4'b0111;
 				RegWrite <= 1'b1;
@@ -741,7 +741,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 			end
 
 
-			LUI: begin
+			29/* lui */: begin
 				ShiftN	 <= 2'b10;
 				ShiftSrc <= 2'b10;
 				set		 <= 3'b010;
