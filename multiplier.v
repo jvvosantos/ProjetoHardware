@@ -7,9 +7,9 @@ module multiplier (clk, MultCtrl, MultReset, fatorA, fatorB, /**/ HI, LO, MultOU
     
 	reg [63:0] multiplicando;
 	reg [31:0] multiplicador;
-    reg [5:0] count;
     reg [63:0] resultado;
-    
+    reg [5:0] count;
+	
     output reg [31:0] HI;
     output reg [31:0] LO;
 	output reg [1:0] MultOUT;
@@ -25,26 +25,30 @@ module multiplier (clk, MultCtrl, MultReset, fatorA, fatorB, /**/ HI, LO, MultOU
 			LO <= 32'b0;
 			resultado <= 64'b0;
 		end
-	   if (count < END) begin
-            if (multiplicador[count] == 1'b1) begin
-			resultado <= resultado + multiplicando;
-            end
-            multiplicando <= multiplicando << 1;
-            count <= count + 1;
-        end 
-		if (count == 32) begin
-			HI <= resultado[63:32];
-			LO <= resultado[31:0];
-			MultOUT <= 1'b1;
-			count <= 0;
+		if (MultCtrl) begin
+			// o fatorA será inicialmente concatenado com 32 zeros a esquerda
+			multiplicando <= {32'b0, fatorA};
+			multiplicador <= fatorB;
+		   if (count < END) begin
+				if (multiplicador[count] == 1'b1) begin
+				resultado <= resultado + multiplicando;
+				end
+				multiplicando <= multiplicando << 1;
+				count <= count + 1;
+			end 
+			if (count == 32) begin
+				HI <= resultado[63:32];
+				LO <= resultado[31:0];
+				MultOUT <= 1'b1;
+				count <= 0;
+			end
 		end
     end
     
     initial begin
         count <= 0;
-		// o fatorA será inicialmente concatenado com 32 zeros a esquerda
-		multiplicando <= {32'b0, fatorA};
-		multiplicador <= fatorB;
+		multiplicando <= 64'b0;
+		multiplicador <= 32'b0;
 		resultado <= 64'b0;
     end
 endmodule
