@@ -61,9 +61,14 @@ module divisor (clk, reset, DivCtrl, divisor, dividendo, /**/ divZero, divOut, H
 					quotient <= 32'b0;
 					quotientCounter <= {1'b1, 32'b0};
 					count <= 6'b0;
-					start <= 1'b0;
 					divOut <= 1'b0;
 					
+					if (DivCtrl) begin
+						start <= 1'b0;
+					end else begin
+						start <= 1'b1;
+					end
+
 					if (divisor == 0) begin
 						divZero <= 1'b1;
 						start <= 1'b1;
