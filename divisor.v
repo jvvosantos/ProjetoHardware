@@ -1,4 +1,4 @@
-module divisor (clk, reset, DivCtrl, divisor, dividendo, /**/ divZero, HI, LO);
+module divisor (clk, reset, DivCtrl, divisor, dividendo, /**/ divZero, divOut, HI, LO);
     //Input
     input clk;
     input DivCtrl;
@@ -20,6 +20,7 @@ module divisor (clk, reset, DivCtrl, divisor, dividendo, /**/ divZero, HI, LO);
 	
     //Outputs HI e LO 
     output reg divZero;
+    output reg divOut;
     output reg [31:0] HI;
     output reg [31:0] LO;
     
@@ -37,6 +38,7 @@ module divisor (clk, reset, DivCtrl, divisor, dividendo, /**/ divZero, HI, LO);
 			HI <= 32'b0;
 			LO <= 32'b0;
 			start <= 1'b1;
+			divOut <= 1'b0;
 		end else begin
 			case (start)
 				1'b1:
@@ -60,6 +62,7 @@ module divisor (clk, reset, DivCtrl, divisor, dividendo, /**/ divZero, HI, LO);
 					quotientCounter <= {1'b1, 32'b0};
 					count <= 6'b0;
 					start <= 1'b0;
+					divOut <= 1'b0;
 					
 					if (divisor == 0) begin
 						divZero <= 1'b1;
@@ -91,6 +94,7 @@ module divisor (clk, reset, DivCtrl, divisor, dividendo, /**/ divZero, HI, LO);
 								LO <= (~quotient + 1);
 							end
 							start <= 1'b0;
+							divOut <= 1'b1;
 						end else begin
 							start <= 1'b1;
 						end
@@ -109,5 +113,6 @@ module divisor (clk, reset, DivCtrl, divisor, dividendo, /**/ divZero, HI, LO);
 		HI <= 32'b0;
 		LO <= 32'b0;
 		start <= 1'b1;
+    		divOut <= 1'b0;
     end
 endmodule
