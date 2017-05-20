@@ -63,7 +63,7 @@ module divisor (clk, reset, DivCtrl, divisor, dividendo, /**/ divZero, divOut, H
 					count <= 6'b0;
 					divOut <= 1'b0;
 					
-					if (DivCtrl) begin
+					if (DivCtrl && !divOut) begin
 						start <= 1'b0;
 					end else begin
 						start <= 1'b1;
@@ -88,21 +88,17 @@ module divisor (clk, reset, DivCtrl, divisor, dividendo, /**/ divZero, divOut, H
 						divisorIn <= divisorIn >> 1;
 						count <= count + 32'b00000000000000000000000000000001;
 					end else begin
-						if (DivCtrl) begin
-							if (divisorNegativo == dividendoNegativo) begin
-								if (dividendoNegativo) HI <= (~dividendoIn [31:0]) + 1;
-								else HI <= dividendoIn [31:0];
-								LO <= quotient;
-							end else begin
-								if (dividendoNegativo) HI <= (~dividendoIn [31:0]) + 1;
-								else HI <= dividendoIn [31:0];
-								LO <= (~quotient + 1);
-							end
-							start <= 1'b0;
-							divOut <= 1'b1;
+						if (divisorNegativo == dividendoNegativo) begin
+							if (dividendoNegativo) HI <= (~dividendoIn [31:0]) + 1;
+							else HI <= dividendoIn [31:0];
+							LO <= quotient;
 						end else begin
-							start <= 1'b1;
+							if (dividendoNegativo) HI <= (~dividendoIn [31:0]) + 1;
+							else HI <= dividendoIn [31:0];
+							LO <= (~quotient + 1);
 						end
+						start <= 1'b1;
+						divOut <= 1'b1;
 					end
 				end
 			endcase
@@ -118,6 +114,6 @@ module divisor (clk, reset, DivCtrl, divisor, dividendo, /**/ divZero, divOut, H
 		HI <= 32'b0;
 		LO <= 32'b0;
 		start <= 1'b1;
-    		divOut <= 1'b0;
+    	divOut <= 1'b0;
     end
 endmodule
