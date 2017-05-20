@@ -195,6 +195,30 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 				//pegando o endereco de PC e lendo da memoria com esse endereco
 				IorD     <= 3'b001;
 				Write    <= 1'b0;
+				
+				PCCtrl <= -1;
+				PCWrite <= -1;
+				PCWriteCond <= -1;
+				IorD <= -1;
+				MemD <= -1;
+				Write <= -1;
+				IRWrite <= -1;
+				ALUflag <= -1;
+				ShiftSrc <= -1;
+				ShiftN <= -1;
+				set <= -1;
+				RegDst <= -1;
+				MemToReg <= -1;
+				RegWrite <= -1;
+				MultCtrl <= -1;
+				DIVCtrl <= -1;
+				AluSrcA <= -1;
+				AluSrcB <= -1;
+				ALUop <= -1;
+				EPCWrite <= -1;
+				HICtrl <= -1;
+				LOCtrl <= -1;
+				PCSource <= -1;
 
 				estado   <= BUSCA;
 			end
