@@ -1,8 +1,8 @@
 module MemtoRegMux (MemtoReg, in_mdrExtI, in_mdrExtII, in_mdrWrite, in_shift, in_hi, in_lo, in_ALUOut, in_lt, mux_out);
 
 input [3:0] MemtoReg;
-input [3:0] in_mdrExtI;
-input [3:0] in_mdrExtII;
+input [31:0] in_mdrExtI;
+input [31:0] in_mdrExtII;
 input [31:0] in_mdrWrite;
 input [31:0] in_shift;
 input [31:0] in_hi;

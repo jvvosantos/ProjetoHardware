@@ -29,6 +29,7 @@ always @(1) begin
 			begin
 				mux_out <= 32'b000;
 			end
+		default: mux_out <= mux_out;
 	endcase
 end
 endmodule

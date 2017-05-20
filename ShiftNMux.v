@@ -3,7 +3,7 @@ module ShiftNMux (ShiftN, in_shamt, in_funct, mux_out);
 input [1:0] ShiftN;
 input [4:0] in_shamt;
 input [4:0] in_funct;
-output reg [31:0] mux_out;
+output reg [4:0] mux_out;
 
 always @(1) begin
 	

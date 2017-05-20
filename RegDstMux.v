@@ -3,7 +3,7 @@ module RegDstMux (RegDst, in_rt, in_rd, mux_out);
 input [2:0] RegDst;
 input [4:0] in_rt;
 input [4:0] in_rd;
-output reg [31:0] mux_out;
+output reg [4:0] mux_out;
 
 always @(1) begin
 	

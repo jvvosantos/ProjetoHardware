@@ -28,7 +28,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 	output reg [1:0] ALUflag;
 	output reg [1:0] ShiftSrc;
 	output reg [1:0] ShiftN;
-	output reg set;
+	output reg [2:0] set;
 	output reg [2:0] RegDst;
 	output reg [3:0] MemToReg;
 	output reg RegWrite;
@@ -208,7 +208,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 				ALUop    <= 3'b001;
 				PCSource <= 2'b0;
 				PCCtrl   <= 1'b0;
-				PCWrite  <= 1'b0;
+				PCWrite  <= 1'b1;
 
 				estado   <= DECODIFICACAO;
 			end
