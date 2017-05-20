@@ -1,4 +1,4 @@
-module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut, divZero, /**/ PCCtrl, PCWrite, PCWriteCond, IorD, MemD, Write, IRWrite, ALUflag, ShiftSrc, ShiftN, set, RegDst, MemToReg, RegWrite, MultCtrl, DIVCtrl, AluSrcA, AluSrcB, ALUop, EPCWrite, HICtrl, LOCtrl, PCSource);
+module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut, divZero, divOut, /**/ PCCtrl, PCWrite, PCWriteCond, IorD, MemD, Write, IRWrite, ALUflag, ShiftSrc, ShiftN, set, RegDst, MemToReg, RegWrite, MultCtrl, DIVCtrl, AluSrcA, AluSrcB, ALUop, EPCWrite, HICtrl, LOCtrl, PCSource);
 
 	input clk;
 	input reset;
@@ -10,11 +10,13 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 	input Zero;
 	input MultOut;
 	input divZero;
+	input divOut;
 
 //	output reg [5:0] estadoSaida;
 
-	reg [5:0] estado;
-
+	reg [7:0] estado;
+	reg [1:0] counter;
+	reg [7:0] tempestado;
 	output reg PCCtrl;
 	output reg PCWrite;
 	output reg PCWriteCond;
@@ -39,13 +41,14 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 	output reg HICtrl;
 	output reg LOCtrl;
 	output reg [1:0] PCSource;
+	
+	
 
 	// DEFINICAO DOS ESTADOS
 	parameter RESET = 0;
 	parameter BUSCA = 1;
 	parameter DECODIFICACAO = 2;
 	parameter BRANCH_CALC = 37;
-	parameter WAIT = 3;
 
 	//ESTADOS
 	// TIPO R
@@ -163,14 +166,30 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 
 	//EXCESSOES
 	parameter OPCODE_INEXISTENTE = 50;
-
-
+	//parameter OVERFLOW = 
+	
+	//WAITS
+	parameter WAIT = 95;
+	
+	
 	initial begin
 		estado <= RESET;
+		counter <= 2'b0;
 	end
 
 	always@(posedge clk) begin
 		case (estado)
+			
+			95:
+				begin
+					counter <= counter + 1;
+					if(counter == 2'b11) begin
+						estado <= tempestado;
+						counter <= 2'b00;
+					end
+				end
+				
+			
 			//lendo da memoria a instrucao no endereco de PC
 			5'b00000 /*RESET*/: begin
 				//pegando o endereco de PC e lendo da memoria com esse endereco
@@ -374,7 +393,8 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 				if(divZero) begin
 					DIVCtrl <= 1'b0;
 					estado  <= 51/* div_0 */;
-				end else begin
+				end 
+				if(divOut)begin
 					estado <= RESET;
 				end
 			end
@@ -591,7 +611,8 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 				IorD  <= 3'b000;
 				Write <= 1'b0;
 
-				estado <= BEQM_2;
+				tempestado <= BEQM_2;
+				estado <= WAIT;
 			end
 
 			BEQM_2: begin
@@ -698,22 +719,25 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 			LW_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b0;
-
-				estado <= LW_END;
+				
+				tempestado <= LW_END;
+				estado <= WAIT;
 			end
 
 			LH_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b0;
 
-				estado <= LH_END;
+				tempestado <= LH_END;
+				estado <= WAIT;
 			end
 
 			LB_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b0;
 
-				estado <= LB_END;
+				tempestado <= LB_END;
+				estado <= WAIT;
 			end
 
 			LW_END: begin
@@ -787,21 +811,25 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 				MemD  <= 2'b00;
 				Write <= 1'b1;
 
-				estado <= RESET;
+				tempestado <= RESET;
+				estado <= WAIT;
 			end
 
 			SH_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b1;
 
-				estado <= SH_END;
+				tempestado <= SH_END;
+				estado <= WAIT;
+				
 			end
 
 			SB_MID: begin
 				IorD  <= 3'b010;
 				Write <= 1'b1;
 
-				estado <= SB_END;
+				tempestado <= SB_END;
+				estado <= WAIT;
 			end
 
 			SH_END: begin
@@ -809,7 +837,8 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 				MemD  <= 2'b10;
 				Write <= 1'b1;
 
-				estado <= RESET;
+				tempestado <= RESET;
+				estado <= WAIT;
 			end
 
 			SB_END: begin
@@ -817,7 +846,8 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 				MemD  <= 2'b01;
 				Write <= 1'b1;
 
-				estado <= RESET;
+				tempestado <= RESET;
+				estado <= WAIT;
 			end
 
 
@@ -867,7 +897,7 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 				estado   <= RESET;
 			end
 
-
+			
 
 			endcase
 			end

@@ -12,11 +12,7 @@ module multiplier (clk, MultCtrl, MultReset, fatorA, fatorB, /**/ HI, LO, MultOU
 	
     output reg [31:0] HI;
     output reg [31:0] LO;
-	output reg [1:0] MultOUT;
-	
-	parameter RESET = 0;
-	parameter EXECUTE = 1;
-	parameter END = -1;
+	output reg MultOUT;
     
     always @(posedge clk) begin
 
@@ -24,12 +20,15 @@ module multiplier (clk, MultCtrl, MultReset, fatorA, fatorB, /**/ HI, LO, MultOU
 			HI <= 32'b0;
 			LO <= 32'b0;
 			resultado <= 64'b0;
+			count <= 0;
 		end
 		if (MultCtrl) begin
 			// o fatorA será inicialmente concatenado com 32 zeros a esquerda
-			multiplicando <= {32'b0, fatorA};
-			multiplicador <= fatorB;
-		   if (count < END) begin
+			if (count == 0) begin
+				multiplicando <= {32'b0, fatorA};
+				multiplicador <= fatorB;
+			end
+		   if (count < 32) begin
 				if (multiplicador[count] == 1'b1) begin
 				resultado <= resultado + multiplicando;
 				end
@@ -40,7 +39,6 @@ module multiplier (clk, MultCtrl, MultReset, fatorA, fatorB, /**/ HI, LO, MultOU
 				HI <= resultado[63:32];
 				LO <= resultado[31:0];
 				MultOUT <= 1'b1;
-				count <= 0;
 			end
 		end
     end
