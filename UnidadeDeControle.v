@@ -1,4 +1,4 @@
-module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut, divZero, /**/ PCCtrl, PCWrite, PCWriteCond, IorD, MemD, Write, IRWrite, ALUflag, ShiftSrc, ShiftN, set, RegDst, MemToReg, RegWrite, MultCtrl, DIVCtrl, AluSrcA, AluSrcB, ALUop, EPCWrite, HICtrl, LOCtrl, PCSource);
+module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut, divZero, divOut, /**/ PCCtrl, PCWrite, PCWriteCond, IorD, MemD, Write, IRWrite, ALUflag, ShiftSrc, ShiftN, set, RegDst, MemToReg, RegWrite, MultCtrl, DIVCtrl, AluSrcA, AluSrcB, ALUop, EPCWrite, HICtrl, LOCtrl, PCSource);
 
 	input clk;
 	input reset;
@@ -10,12 +10,13 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 	input Zero;
 	input MultOut;
 	input divZero;
+	input divOut;
 
 //	output reg [5:0] estadoSaida;
 
 	reg [7:0] estado;
 	reg [1:0] counter;
-	reg [7:0] tempestado
+	reg [7:0] tempestado;
 	output reg PCCtrl;
 	output reg PCWrite;
 	output reg PCWriteCond;
@@ -48,7 +49,6 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 	parameter BUSCA = 1;
 	parameter DECODIFICACAO = 2;
 	parameter BRANCH_CALC = 37;
-	parameter WAIT = 3;
 
 	//ESTADOS
 	// TIPO R
@@ -181,10 +181,12 @@ module UnidadeDeControle ( clk, reset, opcode, funct, ET, GT, LT, Zero, MultOut,
 		case (estado)
 			
 			95:
-				counter <= counter + 1;
-				if(counter == 2'b11) begin
-					estado <= tempestado;
-					counter <= 2'b00;
+				begin
+					counter <= counter + 1;
+					if(counter == 2'b11) begin
+						estado <= tempestado;
+						counter <= 2'b00;
+					end
 				end
 				
 			

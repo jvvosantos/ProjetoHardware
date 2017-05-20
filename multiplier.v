@@ -12,7 +12,7 @@ module multiplier (clk, MultCtrl, MultReset, fatorA, fatorB, /**/ HI, LO, MultOU
 	
     output reg [31:0] HI;
     output reg [31:0] LO;
-	output reg [1:0] MultOUT;
+	output reg MultOUT;
     
     always @(posedge clk) begin
 
