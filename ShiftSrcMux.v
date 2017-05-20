@@ -6,7 +6,7 @@ input [31:0] in_regB;
 input [31:0] in_immed;
 output reg [31:0] mux_out;
 
-always @(ShiftSrc) begin
+always @(1) begin
 	
 	case (ShiftSrc)
 		2'b00: 
@@ -21,6 +21,8 @@ always @(ShiftSrc) begin
 			begin
 				mux_out <= in_immed;
 			end
+			
+		default: mux_out <= mux_out;
 	endcase
 end
 endmodule

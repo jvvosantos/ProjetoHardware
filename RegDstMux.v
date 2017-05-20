@@ -5,7 +5,7 @@ input [4:0] in_rt;
 input [4:0] in_rd;
 output reg [31:0] mux_out;
 
-always @(RegDst) begin
+always @(1) begin
 	
 	case (RegDst)
 		3'b000: 
@@ -28,6 +28,7 @@ always @(RegDst) begin
 			begin
 				mux_out <= 5'b11110;
 			end
+		default: mux_out <= mux_out;
 	endcase
 end
 endmodule

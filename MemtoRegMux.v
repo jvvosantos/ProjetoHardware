@@ -11,7 +11,7 @@ input [31:0] in_ALUOut;
 input [31:0] in_lt;
 output reg [31:0] mux_out;
 
-always @(MemtoReg) begin
+always @(1) begin
 	
 	case (MemtoReg)
 		4'b0000: 
@@ -62,6 +62,7 @@ always @(MemtoReg) begin
 			begin
 				mux_out <= 2'b11;		
 			end
+		default: mux_out <= mux_out;
 	endcase
 end
 endmodule

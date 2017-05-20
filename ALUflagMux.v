@@ -7,25 +7,25 @@ input in_zero;
 input in_Nzero;
 output reg mux_out;
 
-always @(ALUflag) begin
-	
+always @(ALUflag or in_OR or in_gt or in_zero or in_Nzero) begin
 	case (ALUflag)
 		2'b00: 
 			begin
-				mux_out <= in_OR;
+				mux_out = in_OR;
 			end
 		2'b01: 
 			begin
-				mux_out <= in_gt;
+				mux_out = in_gt;
 			end
 		2'b10: 
 			begin
-				mux_out <= in_zero;
+				mux_out = in_zero;
 			end
 		2'b11: 
 			begin
-				mux_out <= in_Nzero;
+				mux_out = in_Nzero;
 			end
+		default: mux_out = mux_out;
 	endcase
 end
 endmodule

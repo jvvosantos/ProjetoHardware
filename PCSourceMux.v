@@ -7,7 +7,7 @@ input [31:0] in_JInst;
 input [31:0] in_EPC;
 output reg [31:0] mux_out;
 
-always @(PCSource) begin
+always @(1) begin
 	
 	case (PCSource)
 		2'b00: 
@@ -26,6 +26,7 @@ always @(PCSource) begin
 			begin
 				mux_out <= in_EPC;
 			end
+		default: mux_out <= mux_out;
 	endcase
 end
 endmodule

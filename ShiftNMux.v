@@ -5,7 +5,7 @@ input [4:0] in_shamt;
 input [4:0] in_funct;
 output reg [31:0] mux_out;
 
-always @(ShiftN) begin
+always @(1) begin
 	
 	case (ShiftN)
 		2'b00: 
@@ -20,6 +20,7 @@ always @(ShiftN) begin
 			begin
 				mux_out <= 5'b10000;
 			end
+		default: mux_out <= mux_out;
 	endcase
 end
 endmodule

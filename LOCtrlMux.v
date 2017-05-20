@@ -5,7 +5,7 @@ input [31:0] in_mult;
 input [31:0] in_div;
 output reg [31:0] lo_out;
 
-always @(LOCtrl) begin
+always @(1) begin
 	
 	case (LOCtrl)
 		0: 
@@ -16,6 +16,7 @@ always @(LOCtrl) begin
 			begin
 				lo_out <= in_div;
 			end
+		default: lo_out <= lo_out;
 	endcase
 end
 endmodule

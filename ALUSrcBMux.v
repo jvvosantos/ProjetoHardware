@@ -6,7 +6,7 @@ input [31:0] in_signExt;
 input [31:0] in_signExtSL;
 output reg [31:0] mux_out;
 
-always @(ALUSrcB) begin
+always @(1) begin
 	
 	case (ALUSrcB)
 		3'b000: 

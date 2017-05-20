@@ -5,7 +5,7 @@ input [31:0] in_PCSource;
 input [31:0] in_MemData;
 output reg [31:0] mux_out;
 
-always @(PCCtrl) begin
+always @(1) begin
 	
 	case (PCCtrl)
 		0: 
@@ -16,6 +16,7 @@ always @(PCCtrl) begin
 			begin
 				mux_out <= in_MemData;
 			end
+		default: mux_out <= mux_out;
 	endcase
 end
 endmodule

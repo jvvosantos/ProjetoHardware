@@ -6,7 +6,7 @@ input [31:0] in_byteB;
 input [31:0] in_halfB;
 output reg [31:0] mux_out;
 
-always @(MemD) begin
+always @(1) begin
 	
 	case (MemD)
 		2'b00: 
@@ -21,6 +21,7 @@ always @(MemD) begin
 			begin
 				mux_out <= in_halfB;
 			end
+		default: mux_out <= mux_out;
 	endcase
 end
 endmodule

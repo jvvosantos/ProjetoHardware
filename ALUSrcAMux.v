@@ -6,7 +6,7 @@ input [31:0] in_mdr;
 input [31:0] in_regA;
 output reg [31:0] mux_out;
 
-always @(ALUSrcA) begin
+always @(1) begin
 	
 	case (ALUSrcA)
 		2'b00: 
@@ -21,6 +21,7 @@ always @(ALUSrcA) begin
 			begin
 				mux_out <= in_regA;
 			end
+		default: mux_out <= mux_out;
 	endcase
 end
 endmodule
